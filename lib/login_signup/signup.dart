@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,20 @@ class _SignupState extends State<Signup> {
     }
 
   }
-
+  getUsersCredentials(String phoneNumber)async{
+    FirebaseFirestore.instance.collection('users').doc(phoneNumber).get().then((userDoc){
+      if(!userDoc.exists){
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>ChangeNotifierProvider(
+          child:  OTPPage(phoneNumber: phoneNumber,isSignup: true,password: "",),
+          create: (context)=>TimerInfo(time:60 ),
+        )));
+      }else{
+        setState(() {
+          errorText = "You already have an account!\nGo to login page and do login";
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +93,21 @@ class _SignupState extends State<Signup> {
                 margin: EdgeInsets.only(left: 25*widthMultiplier,right: 10*widthMultiplier),
                 child: Row(
                   children: [
-                    Container(
-                      child: Text("+88", style: TextStyle(
-                          fontFamily: 'Mina',
-                          fontSize: 18*widthMultiplier,
-                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                          fontWeight: FontWeight.bold,
-                          height: 1
-                      )),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: Text("+88", style: TextStyle(
+                            fontFamily: 'Mina',
+                            fontSize: 18*widthMultiplier,
+                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                            fontWeight: FontWeight.bold,
+                            height: 1
+                        )),
+                      ),
                     ),
                     SizedBox(width: 10*widthMultiplier,),
                     Expanded(
+                      flex: 5,
                       child: Container(
                         padding: EdgeInsets.only(left: 10*widthMultiplier),
                         decoration: BoxDecoration(
@@ -111,11 +129,7 @@ class _SignupState extends State<Signup> {
 
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            //   errorText: errorText,errorMaxLines: 3,
-                            // errorStyle: TextStyle(
-                            //   fontFamily: "Mina",color: Colors.red,
-                            //   fontWeight: FontWeight.w600,fontSize: 16*widthMultiplier,
-                            // )
+                              hintText: "Mobile Number",hintStyle: TextStyle(fontWeight: FontWeight.normal,fontSize: 11*widthMultiplier,fontFamily: "Mina")
                           ),
 
                         ),
@@ -145,14 +159,8 @@ class _SignupState extends State<Signup> {
                     errorText= "";
                     if(checkUserNumber(userNumber)){
                       userNumber="+88"+userNumber;
+                      getUsersCredentials(userNumber);
 
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>ChangeNotifierProvider(
-                        child:  OTPPage(phoneNumber: userNumber,isSignup: true,password: "",),
-                        create: (context)=>TimerInfo(time:60 ),
-                      )));
-
-                   //   Navigator.push(context,CustomPageRout(widget: HomePage(phoneNumber: userNumber,isSignup: true, password: '')));
-                    //  Navigator.push(context,CustomPageRout(widget: OTP(phoneNumber: userNumber, isSignup: true, password: '')));
                     }
                   }
                 },

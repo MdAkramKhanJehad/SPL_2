@@ -248,9 +248,6 @@ class _LoginState extends State<Login> {
                         userNumber="+88"+userNumber;
                         getUsersCredentials(userNumber);
 
-
-
-
                         //  Navigator.push(context,CustomPageRout(widget: OTP(phoneNumber: userNumber, isSignup: true, password: '')));
                       }
                     }
