@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spl_two_agri_pro/login_signup/signup.dart';
+import 'package:spl_two_agri_pro/login_signup/otp_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'navbar_items/navbar_items.dart';
 import 'shared/shared_objects.dart';
 import 'shared/shared_functions.dart';
 final SharedFunctions sharedFunctionsGlobal = new SharedFunctions();
 final SharedObjects sharedObjectsGlobal = new SharedObjects();
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -23,72 +30,81 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             debugShowCheckedModeBanner: false,
-            home: MyHomePage(),
+            home: Signup(),
           );
         }
     );
   }
 }
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, }) : super(key: key);
-
+class SplashScreen extends StatefulWidget {
+  final String userId,password;
+  SplashScreen({required this.userId,required this.password});
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    setSharedPreferences();
+    splashScreenDelay();
+    super.initState();
+  }
+
+  splashScreenDelay(){
+    Future.delayed(Duration(milliseconds: 3000),(){
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>
+          NavbarItems(),
+      ));
+    });
+  }
+  setSharedPreferences()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('password',widget.password );
+    prefs.setString('userId',widget.userId );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    double heightMultiplier = height/712;
     return Scaffold(
-      body: Stack(
-        children: [
-          sharedFunctionsGlobal.getMainPageBackgroundImage(),
-          Center(
-            child: GestureDetector(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context)=>AnotherClass()));
-              },
-              child: Container(
-                child: Text("Hello"),
-              ),
+
+      body:  splashScreenSameUI(heightMultiplier,width)
+    );
+  }
+  Column splashScreenSameUI(double heightMultiplier, double width) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 50*heightMultiplier,),
+        Center(
+          child: Text("Agri Pro",
+            style: TextStyle(fontSize: 28*width/360,color: sharedObjectsGlobal.deepGreen,fontFamily: "Mina",fontWeight: FontWeight.bold,),),
+        ),
+        Center(
+          child: Container(
+            height:300*heightMultiplier,
+            width: width*0.8,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/app-main-logo.png"),
+                  fit: BoxFit.contain,
+                )
             ),
           ),
-        ],
-      )
-    );
-  }
-}
-
-class AnotherClass extends StatefulWidget {
-  const AnotherClass({Key? key}) : super(key: key);
-
-  @override
-  _AnotherClassState createState() => _AnotherClassState();
-}
-
-class _AnotherClassState extends State<AnotherClass> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Another Class"),
-      ),
-      body: Center(
-        child: Container(
-          child: Text("Another Class"),
         ),
-      ),
+        Center(
+          child: Text("Institute of Information Technology\nSPL-2",textAlign: TextAlign.center,maxLines: 3,
+            style: TextStyle(fontSize: 12*width/360,color: sharedObjectsGlobal.deepGreen,fontFamily: "Mina",fontWeight: FontWeight.w500,),),
+        ),
+      ],
     );
-  }
-}
-
-
-class SizeConfig{
-  void init(BoxConstraints constraints ){
-    print(constraints.maxHeight);
-    print(constraints.maxWidth);
-    print("------------------------------");
-
   }
 }
