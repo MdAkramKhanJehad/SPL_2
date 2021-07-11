@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
 
 class SharedFunctions{
+
 
   getBackgroundImage(BuildContext context){
     return  Container(
@@ -52,6 +54,16 @@ class SharedFunctions{
     sharedObjectsGlobal.bodySubtitleStyle = TextStyle(fontFamily: "Mina",fontSize:18*sharedObjectsGlobal.widthMultiplier ,fontWeight:FontWeight.w600 ,color: Colors.black);
     sharedObjectsGlobal.bodyNormalTextStyle = TextStyle(fontFamily: "Mina",fontSize:15*sharedObjectsGlobal.widthMultiplier ,fontWeight:FontWeight.w500 ,color: Colors.black);
     sharedObjectsGlobal.bodyCaptionStyle = TextStyle(fontFamily: "Mina",fontSize:12*sharedObjectsGlobal.widthMultiplier ,fontWeight: FontWeight.w500,color: Colors.black);
-    sharedObjectsGlobal.errorTextStyle = TextStyle(fontSize: 11*sharedObjectsGlobal.widthMultiplier,fontWeight: FontWeight.w700, color: Colors.red,fontFamily: "Mina");
+    sharedObjectsGlobal.errorTextStyle = TextStyle(fontSize: 11*sharedObjectsGlobal.widthMultiplier,fontWeight: FontWeight.w700, color: Color(0xff9B1010),fontFamily: "Mina");
   }
+
+  clearAppDataAfterLogout()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    sharedObjectsGlobal.userSignIn = false;
+    sharedObjectsGlobal.firebaseAuth.signOut();
+    prefs.setString('password','' );
+    prefs.setString('userId','' );
+  }
+
+
 }

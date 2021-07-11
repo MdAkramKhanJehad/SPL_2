@@ -145,7 +145,7 @@ class _OTPPageState extends State<OTPPage> {
                 textAlign: TextAlign.center, maxLines: 6,style: sharedObjectsGlobal.bodySubtitleStyle,),
               SizedBox(height: 40*heightMultiplier,),
               errorText!=""? Container(
-                child: Text(errorText,textAlign: TextAlign.left,
+                child: Text(errorText,textAlign: TextAlign.center,
                   style: sharedObjectsGlobal.errorTextStyle,),)
                   :Container(),
               PinFieldAutoFill(
