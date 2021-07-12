@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spl_two_agri_pro/fertilizer.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/login_signup/otp_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -89,13 +90,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  forText(){
-    FirebaseFirestore.instance.collection('questions').doc("GdWhHCUBS5jIEstJXS3b").get().then((doc){
-      print("${doc.data().runtimeType}");
-      print(doc.data()!.containsKey('ashraf'));
-
-    });
-  }
   splashScreenDelay(){
     Future.delayed(Duration(milliseconds: 3500),(){
       Navigator.push(context,MaterialPageRoute(builder: (context)=>

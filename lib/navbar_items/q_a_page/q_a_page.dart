@@ -6,6 +6,7 @@ import 'package:spl_two_agri_pro/models/question.dart';
 
 import 'single_question_layout/single_question_header_section.dart';
 import 'single_question_layout/single_question_middle_section.dart';
+import 'upload_question/upload_question_template_page.dart';
 
 class QAPage extends StatefulWidget {
 
@@ -19,7 +20,7 @@ class _QAPageState extends State<QAPage> {
   Widget  askCommunityButton(){
     return GestureDetector(
       onTap: (){
-        print("Ask Community");
+        Navigator.push(context,MaterialPageRoute(builder: (context)=> QuestionTemplate() ));
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
@@ -32,9 +33,9 @@ class _QAPageState extends State<QAPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FontAwesomeIcons.penFancy,color: Colors.white,),
+            Icon(FontAwesomeIcons.pen,color: Colors.white,size: 15*sharedObjectsGlobal.widthMultiplier,),
             SizedBox(width: 10,),
-            Text("Ask Community",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Mina",fontSize: 16),),
+            Text("Ask Community",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Mina",height: 2,fontSize: 16*sharedObjectsGlobal.widthMultiplier,color: Colors.white),),
           ],
         ),
       ),

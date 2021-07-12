@@ -166,7 +166,6 @@ class _SingleQuestionFooterState extends State<SingleQuestionFooter> {
                                   comment.likes.add(sharedObjectsGlobal.userGlobal.phone_number);
                                 }
                                 setState(() {});
-
                               },
                               child: Icon(comment.likes.contains(sharedObjectsGlobal.userGlobal.phone_number)?FontAwesomeIcons.solidThumbsUp:FontAwesomeIcons.thumbsUp,
                                 color:comment.likes.contains(sharedObjectsGlobal.userGlobal.phone_number)? Colors.green: Colors.blueGrey,
