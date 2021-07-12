@@ -89,6 +89,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
+  forText(){
+    FirebaseFirestore.instance.collection('questions').doc("GdWhHCUBS5jIEstJXS3b").get().then((doc){
+      print("${doc.data().runtimeType}");
+      print(doc.data()!.containsKey('ashraf'));
+
+    });
+  }
   splashScreenDelay(){
     Future.delayed(Duration(milliseconds: 3500),(){
       Navigator.push(context,MaterialPageRoute(builder: (context)=>
