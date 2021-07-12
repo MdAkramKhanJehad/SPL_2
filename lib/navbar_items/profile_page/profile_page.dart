@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
 import 'package:spl_two_agri_pro/main.dart';
+import 'package:spl_two_agri_pro/navbar_items/profile_page/change_password.dart';
 bool isEditEnable = false;
 class ProfilePage extends StatefulWidget {
 
@@ -18,17 +22,20 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
 
   String nameErr = "",divisionErr = "",districtErr = "";
+  List<File> files=[];
+  List<String>downloadUrls=[];
   TextEditingController     nameController =TextEditingController();
   TextEditingController     numberController =TextEditingController();
   TextEditingController   divisionController  =TextEditingController();
   TextEditingController districtController  =TextEditingController();
   TextEditingController   bioController  =TextEditingController();
-  updateProfileButton() async {
+  updateProfileButton(bool photoChanged) async {
     final data = {
       "user_name" : nameController.text.trim(),
       "division" : divisionController.text.trim(),
       "district" : districtController.text.trim(),
       "bio" : bioController.text.trim(),
+      "imageUrl" : photoChanged ? downloadUrls[0] : sharedObjectsGlobal.userGlobal.imageUrl,
     };
     FirebaseFirestore.instance.collection("users").doc(sharedObjectsGlobal.userGlobal.phone_number).update(data).then((value){
       Fluttertoast.showToast(
@@ -40,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
           textColor: Colors.white,
           fontSize: 13.0*sharedObjectsGlobal.widthMultiplier
       );
+      isEditEnable = false;
     });
   }
 
@@ -50,15 +58,35 @@ class _ProfilePageState extends State<ProfilePage> {
     districtController.text =sharedObjectsGlobal.userGlobal.district;
     bioController.text =sharedObjectsGlobal.userGlobal.bio;
   }
+  openFileExplorer()async{
+
+    try{
+      FilePickerResult? result =
+      await FilePicker.platform.pickFiles(allowMultiple: false,allowedExtensions: ['jpg',"png"],type: FileType.custom);
+      if(result != null) {
+        setState(() {
+          files = result.paths.map((path) => File(path!)).toList();
+        });
+      } else {
+        print("No File selected...");
+      }
+      print("Images= "+files.toString());
+    }on PlatformException catch (e){
+      print("Unsupported Operation "+e.toString());
+    }
+  }
   void handleClick(String value) {
     if(value == 'Logout'){
       sharedFunctionsGlobal.clearAppDataAfterLogout();
+      setState(() {});
     }else if(value == 'Edit Profile'){
       setState(() {
         isEditEnable = !isEditEnable;
       });
     }else if(value =='Change Password'){
-
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>ChangePassword()));
+    }else if(value == 'Change Profile Image'){
+      openFileExplorer();
     }
   }
   handleNonLoginClock(){
@@ -66,7 +94,9 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   @override
   void initState() {
-   sharedObjectsGlobal.userSignIn? initControllerValue():print('');
+    files =[];
+    isEditEnable = false;
+    sharedObjectsGlobal.userSignIn? initControllerValue():print('');
     super.initState();
   }
   @override
@@ -83,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return sharedObjectsGlobal.userSignIn ? signInScaffold(heightMultiplier, widthMultiplier):signOutScaffold(heightMultiplier,widthMultiplier);
   }
 
-Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
+  Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -122,10 +152,10 @@ Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
                     flex: 4,
                     child: Container(
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/no-profile.png"),
-                          fit: BoxFit.contain,
-                        )
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/no-profile.png"),
+                            fit: BoxFit.contain,
+                          )
                       ),
                     ),
                   ),
@@ -137,21 +167,21 @@ Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
                       child: Column(
                         children: [
                           Text("Join Agri-Pro Community for more exclusive features.",textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.w700,color: sharedObjectsGlobal.deepGreen,fontSize: 15*widthMultiplier,fontFamily: "Mina"),),
-                            SizedBox(height: 5*heightMultiplier,),
-                            GestureDetector(
-                              onTap: ()=>handleNonLoginClock(),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 45*widthMultiplier),
-                                child: Text("Login",  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 14*widthMultiplier,fontFamily: "Mina"),),
-                                decoration: BoxDecoration(
-                                  color: sharedObjectsGlobal.deepGreen,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(color: sharedObjectsGlobal.deepGreen),
+                            style: TextStyle(fontWeight: FontWeight.w700,color: sharedObjectsGlobal.deepGreen,fontSize: 13*widthMultiplier,fontFamily: "Mina"),),
+                          SizedBox(height: 5*heightMultiplier,),
+                          GestureDetector(
+                            onTap: ()=>handleNonLoginClock(),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 45*widthMultiplier),
+                              child: Text("Login",  style: TextStyle(fontWeight: FontWeight.bold,color: sharedObjectsGlobal.deepGreen,fontSize: 14*widthMultiplier,fontFamily: "Mina"),),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(2),
+                                border: Border.all(color: sharedObjectsGlobal.deepGreen,width: 2),
 
-                                ),
                               ),
-                            )
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -167,150 +197,188 @@ Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
 
   Scaffold signInScaffold(double heightMultiplier, double widthMultiplier) {
     return Scaffold(
-    appBar: PreferredSize(
-      preferredSize: Size.fromHeight(40 * heightMultiplier),
-      child: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40 * heightMultiplier),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
 
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            icon: Icon(FontAwesomeIcons.ellipsisV,color:sharedObjectsGlobal.deepGreen,size: 18*widthMultiplier,),
-            onSelected: handleClick,
-            itemBuilder: (BuildContext context) {
-              return {'Logout', 'Edit Profile','Change Password'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              icon: Icon(FontAwesomeIcons.ellipsisV,color:sharedObjectsGlobal.deepGreen,size: 18*widthMultiplier,),
+              onSelected: handleClick,
+              itemBuilder: (BuildContext context) {
+                return {'Logout', 'Edit Profile','Change Profile Image', 'Change Password'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
 
-                );
-              }).toList();
-            },
-          ),
-          Container(
-            width: 5 * widthMultiplier,
-          ),
-        ],
-        title: Text(
-          "My Profile",
-          style: TextStyle(
-              color: sharedObjectsGlobal.deepGreen,
-              fontFamily: 'Mina',
-              fontSize: 18 * widthMultiplier,
-              fontWeight: FontWeight.bold,
-              height: 2),
-        ),
-      ),
-    ),
-    body: SingleChildScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
-      child: Container(
-        padding: EdgeInsets.only(
-          left: 35 * widthMultiplier,
-          right: 35 * widthMultiplier,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 30 * heightMultiplier,
-            ),
-            GestureDetector(
-              onTap: () {
-
+                  );
+                }).toList();
               },
-              child: Container(
-                child: Center(
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.white,
-                    child: ClipOval(
-                      child: SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Image.network(
-                            sharedObjectsGlobal.userGlobal.imageUrl,
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                  ),
-                ),
-              ),
             ),
-            SizedBox(
-              height: 15 * heightMultiplier,
-            ),
-            MyProfileTextField(
-              title: "Name",
-              hintText: "",
-              fieldValue: sharedObjectsGlobal.userGlobal.user_name,
-              textEditingController: nameController,
-            ),
-            MyProfileTextField(
-              title: "Phone Number",
-              hintText: "",
-              fieldValue: sharedObjectsGlobal.userGlobal.phone_number,
-              textEditingController: numberController,
-            ),
-            MyProfileTextField(
-              title: "Division",
-              hintText: "",
-              fieldValue: sharedObjectsGlobal.userGlobal.division,
-              textEditingController: divisionController,
-            ),
-            MyProfileTextField(
-              title: "District",
-              hintText: "",
-              fieldValue: sharedObjectsGlobal.userGlobal.district,
-              textEditingController: districtController,
-            ),
-            MyProfileTextField(
-              title: "Bio",
-              hintText: "",
-              fieldValue: sharedObjectsGlobal.userGlobal.bio,
-              textEditingController: bioController,
-            ),
-            SizedBox(
-              height: 20 * heightMultiplier,
-            ),
-            GestureDetector(
-              onTap: () {
-                updateProfileButton();
-              },
-              child: Center(
-                child: Container(
-                  height: 60 * heightMultiplier,
-                  width: 200 * widthMultiplier,
-                  decoration: BoxDecoration(
-                    color: sharedObjectsGlobal.deepGreen,
-                    borderRadius: BorderRadius.circular(15),
-                    //border: Border.all(width: 3,color: Color(0xff703816)),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Update",
-                      style: TextStyle(
-                          fontSize: 20 * heightMultiplier,
-                          color: Colors.white,
-                          fontFamily: "Mina",
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20 * heightMultiplier,
+            Container(
+              width: 5 * widthMultiplier,
             ),
           ],
+          title: Text(
+            "My Profile",
+            style: TextStyle(
+                color: sharedObjectsGlobal.deepGreen,
+                fontFamily: 'Mina',
+                fontSize: 18 * widthMultiplier,
+                fontWeight: FontWeight.bold,
+                height: 2),
+          ),
         ),
       ),
-    ),
-  );
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 35 * widthMultiplier,
+            right: 35 * widthMultiplier,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 30 * heightMultiplier,
+              ),
+              GestureDetector(
+                onTap: () {
+                  openFileExplorer();
+                },
+                child: Container(
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.white,
+                      child: ClipOval(
+                        child: SizedBox(
+                            height: 150,
+                            width: 150,
+                            child:files.length !=0? Image.file(files[0],fit: BoxFit.cover,) : Image.network(
+                              sharedObjectsGlobal.userGlobal.imageUrl,
+                              fit: BoxFit.cover,
+                            )),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15 * heightMultiplier,
+              ),
+              MyProfileTextField(
+                title: "Name",
+                hintText: "",
+                fieldValue: sharedObjectsGlobal.userGlobal.user_name,
+                textEditingController: nameController,
+              ),
+              MyProfileTextField(
+                title: "Phone Number",
+                hintText: "",
+                fieldValue: sharedObjectsGlobal.userGlobal.phone_number,
+                textEditingController: numberController,
+              ),
+              MyProfileTextField(
+                title: "Division",
+                hintText: "",
+                fieldValue: sharedObjectsGlobal.userGlobal.division,
+                textEditingController: divisionController,
+              ),
+              MyProfileTextField(
+                title: "District",
+                hintText: "",
+                fieldValue: sharedObjectsGlobal.userGlobal.district,
+                textEditingController: districtController,
+              ),
+              MyProfileTextField(
+                title: "Bio",
+                hintText: "",
+                fieldValue: sharedObjectsGlobal.userGlobal.bio,
+                textEditingController: bioController,
+              ),
+              SizedBox(
+                height: 20 * heightMultiplier,
+              ),
+              GestureDetector(
+                onTap: () {
+                  if(files.length !=0){
+                    uploadImageToFirebase();
+                  }else{
+                    updateProfileButton(false);
+                  }
+                },
+                child: Center(
+                  child: Container(
+                    height: 60 * heightMultiplier,
+                    width: 200 * widthMultiplier,
+                    decoration: BoxDecoration(
+                      color: sharedObjectsGlobal.deepGreen,
+                      borderRadius: BorderRadius.circular(15),
+                      //border: Border.all(width: 3,color: Color(0xff703816)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Update",
+                        style: TextStyle(
+                            fontSize: 20 * heightMultiplier,
+                            color: Colors.white,
+                            fontFamily: "Mina",
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20 * heightMultiplier,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+  uploadImageToFirebase()async{
+
+    final _storage =FirebaseStorage.instance.ref();
+    for(int j=0;j<files.length;j++){
+      String fileName = files[j].path.split('/').last;
+      UploadTask uploadTask =
+      _storage.child('imageUrl/${sharedObjectsGlobal.userGlobal.phone_number}/${Timestamp.now().seconds}.$fileName').putFile(files[j]);
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) async{
+        print('Snapshot state: ${snapshot.state}'); // paused, running, complete
+        if(snapshot.state==TaskState.success){
+          final a=await snapshot.ref.getDownloadURL();
+          downloadUrls.add(a.toString());
+        }
+        uploadTask
+            .then((TaskSnapshot snapshot) {
+          print('Upload complete!');
+          if(downloadUrls.length==files.length){
+            updateProfileButton(true);
+          }
+        })
+            .catchError((Object e) {
+          print(e); // FirebaseException
+        });
+
+      }, onError: (Object e) {
+        print(e); // FirebaseExceptio
+        return null;
+      });
+    }
+    return downloadUrls;
+  }
+
+
+
 }
 
 class MyProfileTextField extends StatelessWidget {

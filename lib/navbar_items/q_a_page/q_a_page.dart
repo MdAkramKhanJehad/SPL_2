@@ -44,7 +44,7 @@ class _QAPageState extends State<QAPage> {
 
   Future<List<Question>> getQuestions()async{
     List<Question> questionList=[];
-    return   FirebaseFirestore.instance.collection('questions').limit(5).get().then((querySnapshot){
+    return   FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true,).limit(5).get().then((querySnapshot){
       querySnapshot.docs.forEach((doc){
         Question q = Question.fromJson(doc);
         questionList.add(q);
