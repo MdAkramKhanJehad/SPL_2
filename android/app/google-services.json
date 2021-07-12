@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "351900493769",
+    "project_id": "agri-pro-ccc60",
+    "storage_bucket": "agri-pro-ccc60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351900493769:android:850566ab7fb13ad47b6a18",
+        "android_client_info": {
+          "package_name": "iit.du.spl.bsse.ten.spl_two_agri_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351900493769-rfh4di7auef513vjqc9snc6ps4ckbt2j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iit.du.spl.bsse.ten.spl_two_agri_pro",
+            "certificate_hash": "0f34c33853a634da228ec6cee0cc64ffebf3bdf3"
+          }
+        },
+        {
+          "client_id": "351900493769-01qtt3sl7f68762v26utmncjh83ddog2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnLPoL9etwg6NGLosk5r-fw13SM7ieog0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351900493769-01qtt3sl7f68762v26utmncjh83ddog2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
