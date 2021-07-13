@@ -196,10 +196,7 @@ class _QuestionTemplateState extends State<QuestionTemplate> {
                               ) )
                         ],
                       )
-                  )
-                      :
-
-                  GestureDetector(
+                  ):GestureDetector(
                     onTap: ()async{
                       String crop = await showDialog(context: context,barrierDismissible: false, builder: (context) => DialogWidget());
                       setState(() {

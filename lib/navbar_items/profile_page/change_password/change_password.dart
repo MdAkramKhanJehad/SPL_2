@@ -1,45 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/main.dart';
+import 'package:spl_two_agri_pro/navbar_items/navbar_items.dart';
 import 'package:spl_two_agri_pro/services/customPageRoute.dart';
 import 'package:crypt/crypt.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class RegistrationForm extends StatefulWidget {
-  final User? firebaseUser;
-  RegistrationForm({ required this.firebaseUser});
-
+class ChangePassword extends StatefulWidget {
   @override
-  _RegistrationFormState createState() => _RegistrationFormState();
+  _ChangePasswordState createState() => _ChangePasswordState();
 }
-
-class _RegistrationFormState extends State<RegistrationForm> {
-
-
-  String nameErr = "",divisionErr = "",districtErr = "",passwordErr = "",reEnterPasswordErr = "";
-  TextEditingController     nameController =TextEditingController();
-  TextEditingController   divisionController  =TextEditingController();
-  TextEditingController districtController  =TextEditingController();
+class _ChangePasswordState extends State<ChangePassword> {
+  String currentPasswordErr = "",passwordErr = "",reEnterPasswordErr = "";
+  TextEditingController     currentPasswordController =TextEditingController();
   TextEditingController passwordController =TextEditingController();
   TextEditingController  reEnterPasswordController =TextEditingController();
 
 
   errorDetection()async{
-    if(nameController.text.trim().isEmpty){
+
+    final currentPassEncrypt = Crypt.sha256(currentPasswordController.text.trim(), rounds: 10000, salt: dotenv.env['ENCRYPT']);
+    if(currentPasswordController.text.trim().isEmpty || currentPassEncrypt.toString() != sharedObjectsGlobal.userGlobal.password){
       setState(() {
-        nameErr="Name field is Empty";
-      });
-    }else if(divisionController.text.trim().isEmpty){
-      setState(() {
-        divisionErr="Division field is Empty";
-      });
-    }
-    else if(districtController.text.trim().isEmpty){
-      setState(() {
-        districtErr="District field is Empty";
+        currentPasswordErr="Current Password Incorrect";
       });
     }
     else if(passwordController.text.trim().isEmpty || passwordController.text.trim().length<6){
@@ -56,23 +41,16 @@ class _RegistrationFormState extends State<RegistrationForm> {
       FocusScope.of(context).requestFocus(FocusNode());
       final encrypted = Crypt.sha256(passwordController.text.trim(), rounds: 10000, salt: dotenv.env['ENCRYPT']);
       final data = {
-        "user_name": nameController.text.trim(),
-        "division": divisionController.text.trim(),
-        "district": districtController.text.trim(),
         "password": encrypted.toString(),
-        "created_at": Timestamp.now(),
-        "imageUrl":sharedObjectsGlobal.userDefaultImage,
-        "bio":"",
-        "phone_number": widget.firebaseUser!.phoneNumber,
       };
-      createUserInFirebase(data,widget.firebaseUser!.phoneNumber,encrypted.toString());
+      createUserInFirebase(data);
     }
   }
 
-  createUserInFirebase(userData,userId,password)async{
-    FirebaseFirestore.instance.collection('users').doc(userId).set(userData).then((value){
+  createUserInFirebase(userData)async{
+    FirebaseFirestore.instance.collection('users').doc(sharedObjectsGlobal.userGlobal.phone_number).update(userData).then((value){
       Fluttertoast.showToast(
-          msg: "User Registration Successful",
+          msg: "User Password Change Successful",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.TOP ,
           timeInSecForIosWeb: 1,
@@ -80,7 +58,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
           textColor: Colors.white,
           fontSize: 13.0*sharedObjectsGlobal.widthMultiplier
       );
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>SplashScreen(password:password ,userId: userId,)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>NavbarItems()));
     }).catchError((error){
       print('Update failed: $error');
     });
@@ -138,11 +116,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 child: Text('Create Account', textAlign: TextAlign.left, style: sharedObjectsGlobal.bodyTitleStyle),
               ),
               SizedBox(height: 30*heightMultiplier,),
-              Text('Full Name', textAlign: TextAlign.left, style: fieldName),
+              Text('Current Password', textAlign: TextAlign.left, style: fieldName),
               TextField(
-                controller: nameController,
+                controller: currentPasswordController,
                 cursorColor: Colors.grey,
                 style:fieldValue,
+                obscureText: true,
                 decoration: InputDecoration(
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: sharedObjectsGlobal.deepGreen),
@@ -153,12 +132,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: sharedObjectsGlobal.deepGreen),
                     ),
-                    errorText: nameErr
+                    errorText: currentPasswordErr
                 ),
               ),
               SizedBox(height: 10*heightMultiplier,),
-
-              Text('Password', textAlign: TextAlign.left, style: fieldName),
+              Text('New Password', textAlign: TextAlign.left, style: fieldName),
               TextField(
                 controller: passwordController,
                 obscureText: true,
@@ -202,52 +180,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 ),
               ),
               SizedBox(height: 10*heightMultiplier,),
-
-              Text('Division', textAlign: TextAlign.left, style:fieldName ),
-              TextField(
-                controller: divisionController,
-                cursorColor: Colors.grey,
-                style: fieldValue,
-                decoration: InputDecoration(
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: sharedObjectsGlobal.deepGreen),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: sharedObjectsGlobal.deepGreen),
-
-                    ),
-                    errorText: divisionErr
-                ),
-              ),
-              SizedBox(height: 10*heightMultiplier,),
-              Text('District', textAlign: TextAlign.left, style: fieldName,),
-              TextField(
-                controller: districtController,
-                cursorColor: Colors.grey,
-                style: fieldValue,
-
-                decoration: InputDecoration(
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: sharedObjectsGlobal.deepGreen),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: sharedObjectsGlobal.deepGreen),
-
-                    ),
-                    errorText: districtErr
-                ),
-              ),
-              SizedBox(height: 10*heightMultiplier,),
               GestureDetector(
                 onTap: (){
                   setState(() {
-                    nameErr = "";divisionErr = "";districtErr = "";passwordErr = "";reEnterPasswordErr = "";
+                    currentPasswordErr = "";passwordErr = "";reEnterPasswordErr = "";
                   });
                   errorDetection();
                 },
@@ -269,7 +205,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       color : sharedObjectsGlobal.deepGreen
                   ),
                   child: Center(
-                    child: Text('Complete', textAlign: TextAlign.left, style: TextStyle(
+                    child: Text('Submit', textAlign: TextAlign.left, style: TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         fontFamily: 'Mina',
                         fontSize: 20*widthMultiplier,

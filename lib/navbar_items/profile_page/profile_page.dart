@@ -9,9 +9,12 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
 import 'package:spl_two_agri_pro/main.dart';
-import 'package:spl_two_agri_pro/navbar_items/profile_page/change_password.dart';
+import 'package:spl_two_agri_pro/navbar_items/profile_page/change_password/change_password.dart';
+import 'package:spl_two_agri_pro/navbar_items/profile_page/change_password/password_otp.dart';
+import 'package:spl_two_agri_pro/services/timer.dart';
 bool isEditEnable = false;
 class ProfilePage extends StatefulWidget {
 
@@ -84,7 +87,10 @@ class _ProfilePageState extends State<ProfilePage> {
         isEditEnable = !isEditEnable;
       });
     }else if(value =='Change Password'){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>ChangePassword()));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>ChangeNotifierProvider(
+        child:  PasswordOTP(),
+        create: (context)=>TimerInfo(time:60 ),
+      )));
     }else if(value == 'Change Profile Image'){
       openFileExplorer();
     }
@@ -407,11 +413,12 @@ class MyProfileTextField extends StatelessWidget {
               height: 1),
         ),
         TextField(
+          maxLines: title =="Bio" ?4:1,
           controller: textEditingController,
           enabled: title == "Phone Number" || !isEditEnable ? false : true,
           style: TextStyle(
             fontFamily: 'Mina',
-            fontSize: 18 * widthMultiplier,
+            fontSize:title =="Bio" ? 12*widthMultiplier :16 * widthMultiplier,
             letterSpacing: 0,
             fontWeight: FontWeight.w500,
             height: 1,

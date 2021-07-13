@@ -5,18 +5,15 @@ import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:spl_two_agri_pro/main.dart';
+import 'package:spl_two_agri_pro/navbar_items/profile_page/change_password/change_password.dart';
 import 'package:spl_two_agri_pro/services/customPageRoute.dart';
 import 'package:spl_two_agri_pro/services/timer.dart';
-import 'registration_form.dart';
-class OTPPage extends StatefulWidget {
-  final bool isSignup;
-  final String phoneNumber,password;
-  OTPPage({required this.phoneNumber,required this.isSignup,required this.password});
+class PasswordOTP extends StatefulWidget {
   @override
-  _OTPPageState createState() => _OTPPageState();
+  _PasswordOTPState createState() => _PasswordOTPState();
 }
 
-class _OTPPageState extends State<OTPPage> {
+class _PasswordOTPState extends State<PasswordOTP> {
   String _code="",errorText="",verificationIdFromCodeSent="";
   late Timer timer;
   late TimerInfo   timerInfo;
@@ -25,12 +22,9 @@ class _OTPPageState extends State<OTPPage> {
   void initState() {
     super.initState();
     listenSmsCode();
-    loginUser(widget.phoneNumber);
-
+    loginUser(sharedObjectsGlobal.userGlobal.phone_number);
     timerInit();
   }
-
-
   @override
   void dispose() {
     SmsAutoFill().unregisterListener();
@@ -56,8 +50,7 @@ class _OTPPageState extends State<OTPPage> {
       if(userCredential.user!=null){
         User? firebaseUser = userCredential.user;
         timer.cancel();
-        widget.isSignup? Navigator.push(context,CustomPageRout(widget:RegistrationForm(firebaseUser: firebaseUser,) ))
-            :Navigator.push(context,MaterialPageRoute(builder: (context)=>SplashScreen(password:widget.password ,userId: widget.phoneNumber,)));
+        Navigator.push(context,CustomPageRout(widget: ChangePassword()));
       }else{
         setState(() {
           errorText = "Something went wrong.Try again please!";
@@ -81,8 +74,7 @@ class _OTPPageState extends State<OTPPage> {
           UserCredential userCredential =await  sharedObjectsGlobal.firebaseAuth.signInWithCredential(authCredentials);
           User? firebaseUser = userCredential.user;
           timer.cancel();
-          widget.isSignup? Navigator.push(context,CustomPageRout(widget:RegistrationForm(firebaseUser: firebaseUser,) ))
-              :Navigator.push(context,MaterialPageRoute(builder: (context)=>SplashScreen(password:widget.password ,userId: widget.phoneNumber,)));
+          Navigator.push(context,CustomPageRout(widget: ChangePassword()));
 
         }catch(e){
           errorText = "Something wrong happened.Try again";
@@ -100,7 +92,6 @@ class _OTPPageState extends State<OTPPage> {
         verificationIdFromCodeSent = verificationId;
       },
       codeAutoRetrievalTimeout:(String verificationId){
-        print("Now you can resend code");
       } ,
     );
   }
@@ -108,7 +99,6 @@ class _OTPPageState extends State<OTPPage> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-
     double heightMultiplier = height/712;
     double widthMultiplier= width/360;
 
@@ -123,8 +113,6 @@ class _OTPPageState extends State<OTPPage> {
             onPressed: (){
               Navigator.pop(context);
             },),
-          //title:
-
         ),
         body: Container(
           height: height,
@@ -138,7 +126,7 @@ class _OTPPageState extends State<OTPPage> {
                 child: Text('Verification Code', textAlign: TextAlign.center, style: sharedObjectsGlobal.bodyTitleStyle,),
               ),
               SizedBox(height: 25*heightMultiplier,),
-              Text('Please type the verification code sent to your phone ${widget.phoneNumber}',
+              Text('Please type the verification code sent to your phone ${sharedObjectsGlobal.userGlobal.phone_number}',
                 textAlign: TextAlign.center, maxLines: 6,style: sharedObjectsGlobal.bodySubtitleStyle,),
               SizedBox(height: 40*heightMultiplier,),
               errorText!=""? Container(
@@ -161,7 +149,7 @@ class _OTPPageState extends State<OTPPage> {
                 },
               ),
               SizedBox(height: 40*heightMultiplier,),
-             Consumer<TimerInfo>(
+              Consumer<TimerInfo>(
                 builder: (context,data,_){
 
                   if(data.isTimeUp){
@@ -183,29 +171,3 @@ class _OTPPageState extends State<OTPPage> {
     );
   }
 }
-
-/*Padding(
-        padding: EdgeInsets.only(left: 40,right: 40),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            PinFieldAutoFill(
-              decoration: UnderlineDecoration(
-                textStyle: TextStyle(fontSize: 20, color: Colors.black),
-                colorBuilder: FixedColorBuilder(Colors.black.withOpacity(0.3)),
-              ),
-              currentCode: _code,
-              onCodeSubmitted: (code) {},
-              onCodeChanged: (code) {
-                if (code!.length == 6) {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  print("hello");
-                  onCodeSent(code);
-                }
-              },
-            ),
-          ],
-        ),
-      ),*/

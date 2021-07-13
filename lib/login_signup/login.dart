@@ -165,11 +165,6 @@ class _LoginState extends State<Login> {
                                 border: InputBorder.none,
                                 hintText: "Mobile Number",hintStyle: TextStyle(fontWeight: FontWeight.normal,fontSize: 11*widthMultiplier,fontFamily: "Mina")
 
-                              //   errorText: errorText,errorMaxLines: 3,
-                              // errorStyle: TextStyle(
-                              //   fontFamily: "Mina",color: Colors.red,
-                              //   fontWeight: FontWeight.w600,fontSize: 16*widthMultiplier,
-                              // )
                             ),
 
                           ),
@@ -201,7 +196,7 @@ class _LoginState extends State<Login> {
                             border: Border.all(color:Colors.black, ),
                           ),
                           child: TextField(
-
+                            obscureText: true,
                             style: TextStyle(
                               color:  Colors.black,
                               fontFamily: 'Mina',
