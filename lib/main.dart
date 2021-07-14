@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spl_two_agri_pro/diseases.dart';
 import 'package:spl_two_agri_pro/fertilizer.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/login_signup/otp_page.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               home:
+              //Diseases()
               //FertilizerPage()
               SplashScreen(userId: userId,password: password,)
             //Fertilizer(),
