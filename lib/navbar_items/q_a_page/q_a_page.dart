@@ -136,7 +136,7 @@ class _QAPageState extends State<QAPage> {
                           )],
                         ),
                         child: Column(children: [
-                          question.questionImageLinks.length==0? Container():  SingleQuestionHeader(question: question,),
+                          question.questionImageLinks.length==0? Container():  SingleQuestionHeader(imgList: question.questionImageLinks,),
                           Container(
                             child: SingleQuestionMiddle(question: question,isPostView: false,),
                           )

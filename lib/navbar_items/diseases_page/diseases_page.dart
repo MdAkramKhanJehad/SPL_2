@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/models/diseases_details.dart';
+import 'package:spl_two_agri_pro/navbar_items/q_a_page/single_question_layout/single_question_header_section.dart';
 class DiseasesPage extends StatefulWidget {
   @override
   _DiseasesPageState createState() => _DiseasesPageState();
@@ -138,26 +139,84 @@ class _DiseasesPageState extends State<DiseasesPage> {
                   ),
                 ),
                 SizedBox(height: 20*heightMultiplier,),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    padding: EdgeInsets.only(bottom: 10),
-                    margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
-                    decoration: BoxDecoration(
-                      color: sharedObjectsGlobal.offWhite,
-                      boxShadow : [BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          offset: Offset(0,3),
-                          blurRadius: 4
-                      )],
-                    ),
-                    child: Column(
-                      children: [
+                Column(
+                  children: selectedItem.diseaseList.map((diseasesDetails){
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: EdgeInsets.only(bottom: 20*heightMultiplier),
+                        margin: EdgeInsets.only(top:5,bottom: 10,left: 5,right: 5),
+                        decoration: BoxDecoration(
+                          color: sharedObjectsGlobal.offWhite,
+                          boxShadow : [BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.25),
+                              offset: Offset(0,3),
+                              blurRadius: 4
+                          )],
+                        ),
+                        child: Column(
+                          children: [
+                            diseasesDetails.images.length==0? Container():  SingleQuestionHeader(imgList: diseasesDetails.images),
+                            SizedBox(height: 10*heightMultiplier,),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10*widthMultiplier),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Center(
+                                    child: RichText(text: TextSpan(
+                                        children: [
+                                          TextSpan(text: "রোগের নামঃ ",style: titleName,),
+                                          TextSpan(text: diseasesDetails.disease_name,style: titleVal,),
 
-                      ],
-                    ),
-                  ),
-                )
+                                        ]
+                                    )),
+                                  ),
+                                  SizedBox(height: 10*heightMultiplier,),
+                                  //র
+                                  Text("রোগের লক্ষনঃ",style: titleName,),
+                                  SizedBox(height: 5*heightMultiplier,),
+                                  Column(
+                                    children: diseasesDetails.symptoms.map((symptom){
+                                      return ListTile(
+                                        dense: true,
+                                        contentPadding: EdgeInsets.all(0),
+                                        horizontalTitleGap: 0,
+                                        minVerticalPadding: 0,
+                                        leading: Icon(FontAwesomeIcons.solidCircle,size: 16*widthMultiplier,color: sharedObjectsGlobal.deepGreen,),
+                                        title: Text(symptom,style: sharedObjectsGlobal.bodyCaptionStyle,textAlign: TextAlign.left,),
+                                      );
+
+                                        //;
+                                    }).toList(),
+                                  ),
+                                  SizedBox(height: 20*heightMultiplier,),
+                                  Text("রোগের প্রতিরোধ ও প্রতিকারঃ",style: titleName,),
+                                  SizedBox(height: 5*heightMultiplier,),
+                                  Column(
+                                    children: diseasesDetails.prevention_cure.map((symptom){
+                                      return ListTile(
+                                        dense: true,
+                                        contentPadding: EdgeInsets.all(0),
+                                        horizontalTitleGap: 0,
+                                        minVerticalPadding: 0,
+                                        leading: Icon(FontAwesomeIcons.cube,size: 16*widthMultiplier,color: sharedObjectsGlobal.deepGreen,),
+                                        title: Text(symptom,style: sharedObjectsGlobal.bodyCaptionStyle,textAlign: TextAlign.left,),
+                                      );
+
+                                      //;
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+
               ],
             ),
           ),

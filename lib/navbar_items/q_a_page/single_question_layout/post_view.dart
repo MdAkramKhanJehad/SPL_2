@@ -121,7 +121,7 @@ class _PostViewState extends State<PostView> {
                 child: Container(
                   color: Colors.white,
                   child: Column(children: [
-                    SingleQuestionHeader(question: widget.question,),
+                    SingleQuestionHeader(imgList: widget.question.questionImageLinks,),
                     SingleQuestionMiddle(question: widget.question,isPostView: true,),
                     SingleQuestionFooter(question: widget.question,),
 

@@ -3,8 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:spl_two_agri_pro/models/question.dart';
 class SingleQuestionHeader extends StatefulWidget {
-  final Question question;
-  SingleQuestionHeader({required this.question});
+  final List<String> imgList;
+  SingleQuestionHeader({required this.imgList});
   @override
   _SingleQuestionHeaderState createState() => _SingleQuestionHeaderState();
 }
@@ -37,7 +37,7 @@ class _SingleQuestionHeaderState extends State<SingleQuestionHeader> {
 
                 ),
 
-                items: widget.question.questionImageLinks.map((singleImg){
+                items: widget.imgList.map((singleImg){
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
@@ -55,7 +55,7 @@ class _SingleQuestionHeaderState extends State<SingleQuestionHeader> {
                   );
                 }).toList(),
               ),
-              widget.question.questionImageLinks.length<=1?Container():ClipRRect(
+              widget.imgList.length<=1?Container():ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Container(
                   color: Colors.black.withOpacity(.5),
@@ -63,8 +63,8 @@ class _SingleQuestionHeaderState extends State<SingleQuestionHeader> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-                    children: widget.question.questionImageLinks.map((url) {
-                      int index = widget.question.questionImageLinks.indexOf(url);
+                    children: widget.imgList.map((url) {
+                      int index = widget.imgList.indexOf(url);
                       return Container(
                         width: 5.0,
                         height: 5.0,
