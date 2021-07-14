@@ -67,10 +67,11 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               debugShowCheckedModeBanner: false,
-              home:DiseasesPage(),
+              home:
+              //DiseasesPage(),
               //Diseases()
               //FertilizerPage()
-              //SplashScreen(userId: userId,password: password,)
+              SplashScreen(userId: userId,password: password,)
             //Fertilizer(),
           );
         }
