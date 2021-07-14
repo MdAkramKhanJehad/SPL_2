@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/models/diseases_details.dart';
 class DiseasesPage extends StatefulWidget {
@@ -82,6 +83,83 @@ class _DiseasesPageState extends State<DiseasesPage> {
                 Navigator.pop(context);
               },),
             title: Text("Diseases Details", style:TextStyle( fontFamily: "Mina", letterSpacing: 0, fontSize: 20*widthMultiplier,fontWeight: FontWeight.w800, color:sharedObjectsGlobal.deepGreen,) ),
+          ),
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 20*heightMultiplier,),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 40*widthMultiplier,vertical: 5*heightMultiplier),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow : [BoxShadow(
+                        color: Colors.black38,
+                        offset: Offset(0,3),
+                        blurRadius: 4
+                    )],
+                  ),
+                  child: Center(
+                    child: Container(
+                      child: DropdownButton<DiseasesDetails>(
+                        hint:  Text("Select item"),
+                        value: selectedItem,
+                        dropdownColor: sharedObjectsGlobal.deepGreen,
+                        isExpanded: true,
+                        elevation: 10,
+                        icon: Icon(FontAwesomeIcons.caretDown),
+                        iconSize: 18*widthMultiplier,
+                        //itemHeight: 40*heightMultiplier,
+                        menuMaxHeight: 350*heightMultiplier,
+                        onChanged: ( val) {
+                          setState(() {
+                            selectedItem = val!;
+                          });
+                        },
+                        items: diseasesDetailsList.map(( details) {
+                          return  DropdownMenuItem<DiseasesDetails>(
+                            value: details,
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(width: 10,),
+                                Text(
+                                  details.plant,
+                                  style:  TextStyle(color: details ==selectedItem? sharedObjectsGlobal.limeGreen: Colors.white),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    /**/
+                  ),
+                ),
+                SizedBox(height: 20*heightMultiplier,),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: 10),
+                    margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
+                    decoration: BoxDecoration(
+                      color: sharedObjectsGlobal.offWhite,
+                      boxShadow : [BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                          offset: Offset(0,3),
+                          blurRadius: 4
+                      )],
+                    ),
+                    child: Column(
+                      children: [
+
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         )
       ],

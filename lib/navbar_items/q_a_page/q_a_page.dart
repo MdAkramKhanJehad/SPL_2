@@ -88,7 +88,7 @@ class _QAPageState extends State<QAPage> {
     TextStyle appBarTitleStyle=TextStyle(
       fontFamily: "Mina",
       letterSpacing: 0,
-      fontSize: 18/widthMultiplier,fontWeight: FontWeight.w800,color:sharedObjectsGlobal.deepGreen,);
+      fontSize: 18*widthMultiplier,fontWeight: FontWeight.w800,color:sharedObjectsGlobal.deepGreen,);
     return Stack(
       children: [
         Container(
@@ -125,7 +125,6 @@ class _QAPageState extends State<QAPage> {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
-
                         padding: EdgeInsets.only(bottom: 10),
                         margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
                         decoration: BoxDecoration(
@@ -135,7 +134,6 @@ class _QAPageState extends State<QAPage> {
                               offset: Offset(0,3),
                               blurRadius: 4
                           )],
-                        //  color : Color.fromRGBO(218, 123, 66, 1),
                         ),
                         child: Column(children: [
                           question.questionImageLinks.length==0? Container():  SingleQuestionHeader(question: question,),
