@@ -80,7 +80,7 @@ class _FertilizerPageState extends State<FertilizerPage> {
             // )
           ),
         ),
-        if (loading) Container(height: height,width: width,child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),) else Scaffold(
+       loading? Container(height: height,width: width,child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),) : Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor:  Colors.white,
