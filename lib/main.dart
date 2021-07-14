@@ -65,8 +65,9 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               debugShowCheckedModeBanner: false,
-              home: FertilizerPage()
-              //SplashScreen(userId: userId,password: password,)
+              home:
+              //FertilizerPage()
+              SplashScreen(userId: userId,password: password,)
             //Fertilizer(),
           );
         }

@@ -88,6 +88,10 @@ class _FertilizerPageState extends State<FertilizerPage> {
             automaticallyImplyLeading: false,
             centerTitle: true,
             elevation: 0,
+            leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: sharedObjectsGlobal.deepGreen,size: 18*widthMultiplier ,),
+              onPressed: (){
+                Navigator.pop(context);
+              },),
             title: Text("Fertilizer Calculator", style:TextStyle( fontFamily: "Mina", letterSpacing: 0, fontSize: 20*widthMultiplier,fontWeight: FontWeight.w800, color:sharedObjectsGlobal.deepGreen,) ),
           ),
           body: SingleChildScrollView(
