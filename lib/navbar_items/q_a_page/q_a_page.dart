@@ -111,7 +111,6 @@ class _QAPageState extends State<QAPage> {
             centerTitle: true,
             elevation: 0,
             title: Text("Question Answer Forum", style:appBarTitleStyle ),
-
           ),
           floatingActionButton: askCommunityButton(),
           body:  SingleChildScrollView(
@@ -130,7 +129,7 @@ class _QAPageState extends State<QAPage> {
                         padding: EdgeInsets.only(bottom: 10),
                         margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
                         decoration: BoxDecoration(
-                          color: Color(0xffF9F9F9),
+                          color: sharedObjectsGlobal.offWhite,
                           boxShadow : [BoxShadow(
                               color: Color.fromRGBO(0, 0, 0, 0.25),
                               offset: Offset(0,3),

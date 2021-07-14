@@ -9,6 +9,7 @@ import 'package:spl_two_agri_pro/login_signup/otp_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:spl_two_agri_pro/models/user.dart';
 
+import 'navbar_items/fertilizer_page/fertilizer_page.dart';
 import 'navbar_items/navbar_items.dart';
 import 'shared/shared_objects.dart';
 import 'shared/shared_functions.dart';
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               debugShowCheckedModeBanner: false,
-              home:  SplashScreen(userId: userId,password: password,)//Signup(),
+              home: FertilizerPage()
+              //SplashScreen(userId: userId,password: password,)
             //Fertilizer(),
           );
         }

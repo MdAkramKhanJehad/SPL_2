@@ -8,6 +8,7 @@ class SharedObjects{
   Color lightGreen = Color(0xffDBF3D2);
   Color limeGreen = Color(0xff59A514);
   Color errorColor = Color(0xff9B1010);
+  Color offWhite = Color(0xffF9F9F9);
   Widget circularProgressCustomize = CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(Color(0xff59A514)),);
   double mobilePortraitHeight=0.0,mobilePortraitWidth=0.0 ;
   FirebaseAuth firebaseAuth =FirebaseAuth.instance;
