@@ -17,7 +17,7 @@ class SharedObjects{
   String userDefaultImage =  "https://firebasestorage.googleapis.com/v0/b/agri-pro-ccc60.appspot.com/o/shared_photos%2Fuser.png?alt=media&token=ba3de876-3a5a-41ff-974b-2d81fcd4dee9";
   late TextStyle appBarTitleStyle, bodyTitleStyle, bodySubtitleStyle, bodyNormalTextStyle, bodyCaptionStyle, errorTextStyle;
   List<String> crops=[
-    "Apple","Onion","Olive","Papaya","Pear","Peach",
+    "Apple","Onion","Olive","Papaya","Pear","Peach","Mango"
         "Apricot","Banana","Jackfruit","Barley","Bean","Brinjal",'Cabbage','Canola','Carrot','Cherry',
     'Cucumber', "Cotton", "Grape", "Ginger", "Garlic",
   ];

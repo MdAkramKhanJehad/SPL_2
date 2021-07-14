@@ -40,19 +40,16 @@ class _SingleQuestionHeaderState extends State<SingleQuestionHeader> {
                 items: widget.question.questionImageLinks.map((singleImg){
                   return Builder(
                     builder: (BuildContext context) {
-                      return Hero(
-                        tag: singleImg,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                image: NetworkImage(singleImg.toString()),
-                                fit: BoxFit.cover,
-                              )
-                          ),
-
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: NetworkImage(singleImg.toString()),
+                              fit: BoxFit.cover,
+                            )
                         ),
+
                       );
                     },
                   );

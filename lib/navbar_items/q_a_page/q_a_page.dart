@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/models/question.dart';
-
 import 'single_question_layout/single_question_header_section.dart';
 import 'single_question_layout/single_question_middle_section.dart';
 import 'upload_question/upload_question_template_page.dart';
@@ -16,7 +15,45 @@ class QAPage extends StatefulWidget {
 
 class _QAPageState extends State<QAPage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-
+  List<Question> questionList=[];
+  int perPageLimit = 5;
+  bool queryForMore = true;
+  ScrollController scrollController = new ScrollController();
+  @override
+  void initState() {
+    var query = FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true).limit(perPageLimit);
+    fetchPaginatedData(query);
+    super.initState();
+    scrollController.addListener(() {
+     // print(scrollController.position.maxScrollExtent);
+    //  print(scrollController.position.pixels);
+      if(scrollController.position.pixels ==scrollController.position.maxScrollExtent && queryForMore){
+        var query = FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true)
+            .startAfter([questionList[questionList.length-1].questionPostedDate])
+            .limit(perPageLimit);
+        fetchPaginatedData(query);
+      }
+    });
+  }
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+  fetchPaginatedData(query) {
+    query
+        .get()
+        .then((querySnapshot){
+          if(querySnapshot.docs.length ==0){
+            queryForMore = false;
+          }
+          querySnapshot.docs.forEach((doc){
+          Question q = Question.fromJson(doc);
+         questionList.add(q);
+       });
+          setState(() {});
+    });
+  }
   Widget  askCommunityButton(){
     return GestureDetector(
       onTap: (){
@@ -42,17 +79,6 @@ class _QAPageState extends State<QAPage> {
     );
   }
 
-  Future<List<Question>> getQuestions()async{
-    List<Question> questionList=[];
-    return   FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true,).limit(5).get().then((querySnapshot){
-      querySnapshot.docs.forEach((doc){
-        Question q = Question.fromJson(doc);
-        questionList.add(q);
-
-      });
-      return questionList;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -62,77 +88,70 @@ class _QAPageState extends State<QAPage> {
     TextStyle appBarTitleStyle=TextStyle(
       fontFamily: "Mina",
       letterSpacing: 0,
-      fontSize: 18/widthMultiplier,fontWeight: FontWeight.w800,color:   Colors.white,);
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.blueGrey.withOpacity(0.5),
-      appBar: AppBar(
-        backgroundColor:  Color(0xff3A7F0D),
-        backwardsCompatibility: false,
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        elevation: 0,
-        title: Text("Question Answer Forum", style:appBarTitleStyle ),
-        actions: [
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 10*widthMultiplier,),
-            child: IconButton(icon: Icon(Icons.settings,size: 30*widthMultiplier,color:   Color(0xff3A7F0D)),
-                onPressed: (){
-                  print("Menu tap");
-                  scaffoldKey.currentState!.openEndDrawer();
-                }
-            ),
-          )
+      fontSize: 18/widthMultiplier,fontWeight: FontWeight.w800,color:sharedObjectsGlobal.deepGreen,);
+    return Stack(
+      children: [
+        Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/home-page-bg.png"),
+                  fit: BoxFit.cover
+              )
+          ),
+        ),
+        Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor:  Colors.transparent,
+            backwardsCompatibility: false,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            elevation: 0,
+            title: Text("Question Answer Forum", style:appBarTitleStyle ),
 
-        ],
-      ),
-      floatingActionButton: askCommunityButton(),
-      body: FutureBuilder(
-        future: getQuestions(),
-        builder: (context,snapshot){
-          if(snapshot.hasData){
-            List<Question> questionList = snapshot.data as List<Question>;
+          ),
+          floatingActionButton: askCommunityButton(),
+          body:  SingleChildScrollView(
+              controller: scrollController,
+              physics: AlwaysScrollableScrollPhysics(),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: questionList.length,
+                itemBuilder: (context,index){
+                  Question question = questionList[index];
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
 
-            return SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: questionList.length,
-                  itemBuilder: (context,index){
-                    Question question = questionList[index];
+                        padding: EdgeInsets.only(bottom: 10),
+                        margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
+                        decoration: BoxDecoration(
+                          color: Color(0xffF9F9F9),
+                          boxShadow : [BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.25),
+                              offset: Offset(0,3),
+                              blurRadius: 4
+                          )],
+                        //  color : Color.fromRGBO(218, 123, 66, 1),
+                        ),
+                        child: Column(children: [
+                          question.questionImageLinks.length==0? Container():  SingleQuestionHeader(question: question,),
+                          Container(
+                            child: SingleQuestionMiddle(question: question,isPostView: false,),
+                          )
 
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.only(bottom: 10),
-                          margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
-                          child: Column(children: [
-                            question.questionImageLinks.length==0? Container():  SingleQuestionHeader(question: question,),
-                            Container(
-                              child: SingleQuestionMiddle(question: question,),
-                            )
+                        ],)),
+                  );
+                },
+              )
+          ),
 
-                          ],)),
-                    );
-                  },
-                )
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              child: Text("Error"),
-            );
-          }else{
-            return Container(
-              height: height,width: width,
-              child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),
-            );
-          }
-
-        },
-      ),
-
+        ),
+      ],
     );
   }
 }

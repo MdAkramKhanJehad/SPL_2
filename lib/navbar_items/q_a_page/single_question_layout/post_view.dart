@@ -122,7 +122,7 @@ class _PostViewState extends State<PostView> {
                   color: Colors.white,
                   child: Column(children: [
                     SingleQuestionHeader(question: widget.question,),
-                    SingleQuestionMiddle(question: widget.question,),
+                    SingleQuestionMiddle(question: widget.question,isPostView: true,),
                     SingleQuestionFooter(question: widget.question,),
 
                   ],),
