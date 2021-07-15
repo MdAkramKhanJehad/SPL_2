@@ -64,8 +64,9 @@ class _ProfilePageState extends State<ProfilePage> {
   handleNonLoginClock(){
     Navigator.push(context,MaterialPageRoute(builder: (context)=>Login()));
   }
+
   @override
-  void initState() {
+  void initState(){
    sharedObjectsGlobal.userSignIn? initControllerValue():print('');
     super.initState();
   }
@@ -131,28 +132,30 @@ Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
                   ),
                   Expanded(
                     flex: 7,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 7*heightMultiplier),
-                      child: Column(
-                        children: [
-                          Text("Join Agri-Pro Community for more exclusive features.",textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.w700,color: sharedObjectsGlobal.deepGreen,fontSize: 15*widthMultiplier,fontFamily: "Mina"),),
-                            SizedBox(height: 5*heightMultiplier,),
-                            GestureDetector(
-                              onTap: ()=>handleNonLoginClock(),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 45*widthMultiplier),
-                                child: Text("Login",  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 14*widthMultiplier,fontFamily: "Mina"),),
-                                decoration: BoxDecoration(
-                                  color: sharedObjectsGlobal.deepGreen,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(color: sharedObjectsGlobal.deepGreen),
+                    child: SingleChildScrollView(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 7*heightMultiplier),
+                        child: Column(
+                          children: [
+                            Text("Join Agri-Pro Community for more exclusive features.",textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.w700,color: sharedObjectsGlobal.deepGreen,fontSize: 15*widthMultiplier,fontFamily: "Mina"),),
+                              SizedBox(height: 5*heightMultiplier,),
+                              GestureDetector(
+                                onTap: ()=>handleNonLoginClock(),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 45*widthMultiplier),
+                                  child: Text("Login",  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 14*widthMultiplier,fontFamily: "Mina"),),
+                                  decoration: BoxDecoration(
+                                    color: sharedObjectsGlobal.deepGreen,
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(color: sharedObjectsGlobal.deepGreen),
 
+                                  ),
                                 ),
-                              ),
-                            )
-                        ],
+                              )
+                          ],
+                        ),
                       ),
                     ),
                   ),

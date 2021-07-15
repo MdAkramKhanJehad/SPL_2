@@ -13,7 +13,7 @@ class _FertilizerState extends State<Fertilizer> {
       {
         "fertilizer_name" : 'DAP',
         "unit" : "kg",
-        "quantity": 150
+        "quantity": 113
       },
       {
         "fertilizer_name" : 'MOP',
@@ -23,25 +23,7 @@ class _FertilizerState extends State<Fertilizer> {
       {
         "fertilizer_name" : 'Urea',
         "unit" : "kg",
-        "quantity": 200
-      }
-    ];
-    final fertilizerOptionForHec2=[
-      {
-        "fertilizer_name" : 'SSP',
-        "unit" : "kg",
-        "quantity": 350
-      },
-
-      {
-        "fertilizer_name" : 'MOP',
-        "unit" : "kg",
-        "quantity": 100
-      },
-      {
-        "fertilizer_name" : 'Urea',
-        "unit" : "kg",
-        "quantity": 250
+        "quantity": 282
       }
     ];
 
@@ -49,7 +31,7 @@ class _FertilizerState extends State<Fertilizer> {
       {
         "fertilizer_name" : 'DAP',
         "unit" : "kg",
-        "quantity": 61
+        "quantity": 46
       },
 
       {
@@ -60,39 +42,16 @@ class _FertilizerState extends State<Fertilizer> {
       {
         "fertilizer_name" : 'Urea',
         "unit" : "kg",
-        "quantity": 81
+        "quantity": 114
       }
     ];
-    final fertilizerOptionForAcr2=[
-      {
-        "fertilizer_name" : 'SSP',
-        "unit" : "kg",
-        "quantity": 142
-      },
 
-      {
-        "fertilizer_name" : 'MOP',
-        "unit" : "kg",
-        "quantity": 40
-      },
-      {
-        "fertilizer_name" : 'Urea',
-        "unit" : "kg",
-        "quantity": 101
-      }
-    ];
 
     final uploadData = {
       "units" : ['Hectare', 'Acre'],
-      "name" : "Brinjal",
-      "hectare" : [
-        fertilizerOptionForHec1,
-        fertilizerOptionForHec2
-      ],
-      "acre": [
-        fertilizerOptionForAcr1,
-        fertilizerOptionForAcr2
-      ],
+      "name" : "Cotton",
+      "hectare" : fertilizerOptionForHec1,
+      "acre":  fertilizerOptionForAcr1,
     };
     FirebaseFirestore.instance.collection('fertilizers').add(uploadData).then((value){
       print("Upload Success");
@@ -101,7 +60,7 @@ class _FertilizerState extends State<Fertilizer> {
 
   @override
   void initState() {
-   // updateData();
+    // updateData();
     super.initState();
   }
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/main.dart';
+import 'package:spl_two_agri_pro/weather_forecast.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -52,10 +53,23 @@ class _HomePageState extends State<HomePage> {
               ],
 
           ),
-          body: Column(
-            children: [
-                 Center(child: Text("Home Page"))
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Center(child: Text("Home Page")),
+                SizedBox(height:20),
+                Center(child: Center(child:
+                  TextButton(child: Text("Current Weather"),onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WeatherForecast()),
+                    );
+                  })),
+                ),
+                SizedBox(height:30),
+
+              ],
+            ),
           )
 
         ),
