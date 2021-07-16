@@ -16,6 +16,7 @@ class WeatherForecast extends StatefulWidget {
 
 class _WeatherForecastState extends State<WeatherForecast> {
   String key = '7029c894ace1201df03d5de86958f262';
+  String _indicator = "Press the button to download the Weather forecast";
   late WeatherFactory ws;
   List<Weather> _data = [];
   AppState _state = AppState.NOT_DOWNLOADED;
@@ -37,17 +38,25 @@ class _WeatherForecastState extends State<WeatherForecast> {
     });
 
     late List<Weather> forecasts;
-    if (isCity){
-      forecasts = (await ws.fiveDayForecastByCityName(city)) ;
+
+    try{
+      if (isCity){
+        forecasts = (await ws.fiveDayForecastByCityName(city)) ;
+      }
+      else{
+        forecasts = (await ws.fiveDayForecastByLocation(lat!, lon!)).cast<Weather>() ;
+      }
+      setState(() {
+        _data = forecasts;
+        _state = AppState.FINISHED_DOWNLOADING;
+      });
+    } catch(e){
+      print("Exception: ${e.toString()}");
+      setState(() {
+        _indicator = "Invalid Location";
+        _state = AppState.NOT_DOWNLOADED;
+      });
     }
-    else{
-      forecasts = (await ws.fiveDayForecastByLocation(lat!, lon!)).cast<Weather>() ;
-    }
-    // List<Weather> forecasts = (await ws.fiveDayForecastByLocation(lat!, lon!)).cast<Weather>();
-    setState(() {
-      _data = forecasts;
-      _state = AppState.FINISHED_DOWNLOADING;
-    });
   }
 
   void queryWeather(bool isCity,String city) async {
@@ -59,19 +68,25 @@ class _WeatherForecastState extends State<WeatherForecast> {
     });
 
     late Weather weather;
-    if (isCity){
-      weather = (await ws.currentWeatherByCityName(city)) ;
-    }
-    else{
-      weather = (await ws.currentWeatherByLocation(lat!, lon!)) ;
-    }
+    try {
+      if (isCity) {
+        weather = (await ws.currentWeatherByCityName(city));
+      }
+      else {
+        weather = (await ws.currentWeatherByLocation(lat!, lon!));
+      }
 
-    print(weather.cloudiness);
-    print(weather.date.toString().split(' ')[0]);
-    setState(() {
-      _data = [weather];
-      _state = AppState.FINISHED_DOWNLOADING;
-    });
+      setState(() {
+        _data = [weather];
+        _state = AppState.FINISHED_DOWNLOADING;
+      });
+    }catch(e){
+      print("Exception: ${e.toString()}");
+      setState(() {
+        _indicator = "Invalid Location";
+        _state = AppState.NOT_DOWNLOADED;
+      });
+    }
   }
 
   Widget contentFinishedDownload() {
@@ -93,25 +108,30 @@ class _WeatherForecastState extends State<WeatherForecast> {
   Widget contentDownloading() {
     return Container(
       margin: EdgeInsets.all(25),
-      child: Column(children: [
-        Text(
-          'Fetching Weather...',
-          style: TextStyle(fontSize: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 50),
-          child: Center(child: CircularProgressIndicator(strokeWidth: 10)))
-      ]),
+      child: SingleChildScrollView(
+        child: Column(children: [
+          Text(
+            'Fetching Weather...',
+            style: TextStyle(fontSize: 20),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 50),
+            child: Center(child: CircularProgressIndicator(strokeWidth: 5)))
+        ]),
+      ),
     );
   }
 
-  Widget contentNotDownloaded() {
+  Widget contentNotDownloaded(String indicator) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Press the button to download the Weather forecast',
+            indicator,
+            style: TextStyle(
+              fontSize: 25,
+            ),
           ),
         ],
       ),
@@ -122,7 +142,7 @@ class _WeatherForecastState extends State<WeatherForecast> {
     ? contentFinishedDownload()
     : _state == AppState.DOWNLOADING
     ? contentDownloading()
-    : contentNotDownloaded();
+    : contentNotDownloaded(_indicator);
 
   
   Future<Position> locateUser() async {
@@ -151,8 +171,6 @@ class _WeatherForecastState extends State<WeatherForecast> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter city name'),
-              // onChanged: _saveLon,
-              // onSubmitted: _saveLon
             )))
       ],
     );
@@ -205,10 +223,11 @@ class _WeatherForecastState extends State<WeatherForecast> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text('Weather'),
+          title: Center(child: Text('Weather',style: TextStyle(color: Colors.blueGrey,fontWeight: FontWeight.bold),)),
         ),
         body: Column(
           children: <Widget>[
