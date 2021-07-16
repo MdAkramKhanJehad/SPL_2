@@ -16,7 +16,7 @@ class WeatherForecast extends StatefulWidget {
 
 class _WeatherForecastState extends State<WeatherForecast> {
   String key = '7029c894ace1201df03d5de86958f262';
-  String _indicator = "Press the button to download the Weather forecast";
+  String _indicator = "Press the button";
   late WeatherFactory ws;
   List<Weather> _data = [];
   AppState _state = AppState.NOT_DOWNLOADED;
@@ -91,11 +91,23 @@ class _WeatherForecastState extends State<WeatherForecast> {
 
   Widget contentFinishedDownload() {
     return Center(
-      child: ListView.separated(
+      child:
+      ListView.separated(
         itemCount: _data.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(_data[index].toString()),
+            title: Text("${_data[index].areaName.toString()}, ${_data[index].country.toString()} || "
+              "Humidity: ${_data[index].humidity.toString()}",style: TextStyle(fontSize: 14),),
+            subtitle: Text("T:${_data[index].temperature.toString().split(" ")[0]}\u2103 || "
+              "Feels like:${_data[index].tempFeelsLike.toString().split(" ")[0]}\u2103\n"
+              "Max: ${_data[index].tempMax.toString().split(" ")[0]}\u2103 || "
+              "Min: ${_data[index].tempMin.toString().split(" ")[0]}\u2103"),
+            leading:
+            Text("${_data[index].date.toString().split(" ")[0]},\n"
+              "${(_data[index].date.toString().split(" ")[1]).split(".000")[0]}",style: TextStyle(fontSize: 13),)
+            ,
+            trailing:Text("${_data[index].weatherMain},\n${_data[index].weatherDescription}",style: TextStyle(fontSize: 14),),
+
           );
         },
         separatorBuilder: (context, index) {
@@ -124,16 +136,19 @@ class _WeatherForecastState extends State<WeatherForecast> {
 
   Widget contentNotDownloaded(String indicator) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            indicator,
-            style: TextStyle(
-              fontSize: 25,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              indicator,
+              style: TextStyle(
+                fontSize: 23,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -170,7 +185,7 @@ class _WeatherForecastState extends State<WeatherForecast> {
               controller: myController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter city name'),
+                hintText: 'Enter City (Default:Current Location)'),
             )))
       ],
     );
