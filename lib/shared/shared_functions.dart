@@ -61,9 +61,9 @@ class SharedFunctions{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     sharedObjectsGlobal.userSignIn = false;
     sharedObjectsGlobal.firebaseAuth.signOut();
+    sharedObjectsGlobal.userGlobal = sharedObjectsGlobal.userGlobal.clearUser();
     prefs.setString('password','' );
     prefs.setString('userId','' );
   }
-
 
 }

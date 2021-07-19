@@ -142,7 +142,7 @@ class _SignupState extends State<Signup> {
               errorText==null? Container(): Center(
                 child: Container(
                   child: Text(errorText,textAlign: TextAlign.center,style: TextStyle(
-                    color: Colors.red,
+                    color: sharedObjectsGlobal.errorColor,
                     fontWeight: FontWeight.w600,fontSize: 12*widthMultiplier,
                   ),),
                 ),

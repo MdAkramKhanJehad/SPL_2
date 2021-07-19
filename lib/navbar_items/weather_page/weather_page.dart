@@ -16,7 +16,7 @@ class WeatherForecast extends StatefulWidget {
 
 class _WeatherForecastState extends State<WeatherForecast> {
 
-  String key = '7029c894ace1201df03d5de86958f262'; // dotenv.env['WEATHER_KEY']
+  String key =  dotenv.env['WEATHER_KEY'].toString();
   String _indicator = "Press the button";
   late WeatherFactory ws;
   List<Weather> _data = [];
@@ -32,7 +32,6 @@ class _WeatherForecastState extends State<WeatherForecast> {
   }
 
   void queryForecast(bool isCity,String city) async {
-    /// Removes keyboard
     FocusScope.of(context).requestFocus(FocusNode());
     setState(() {
       _state = AppState.DOWNLOADING;

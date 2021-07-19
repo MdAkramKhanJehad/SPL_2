@@ -18,6 +18,17 @@ class AppUser{
     );
   }
 
+  clearUser(){
+    return AppUser(
+      bio: "",
+      district:"",
+      division: "",
+      imageUrl:"",
+      phone_number: "",
+      user_name: "",
+      password:"",
+    );
+  }
   @override
   String toString() {
     return 'AppUser{user_name: $user_name, phone_number: $phone_number, imageUrl: $imageUrl, district: $district, division: $division, bio: $bio}';

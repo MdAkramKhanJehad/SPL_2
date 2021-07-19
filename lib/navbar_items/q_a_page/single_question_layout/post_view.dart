@@ -109,8 +109,10 @@ class _PostViewState extends State<PostView> {
               },),
             actions: [
               TextButton(onPressed:(){
-                showAlertDialog(context);
-              }, child: Text("Write a comment",style: TextStyle(fontSize: 15*widthMultiplier,fontWeight: FontWeight.w600),)),
+                if(sharedObjectsGlobal.userSignIn){
+                  showAlertDialog(context);
+                }
+              }, child: Text("Write a comment",style: TextStyle( color: sharedObjectsGlobal.userSignIn? Color(0xff38A1F4):Colors.grey,fontSize: 15*widthMultiplier,fontWeight: FontWeight.w600),)),
               SizedBox(width: 15*widthMultiplier,)
             ],
           ),

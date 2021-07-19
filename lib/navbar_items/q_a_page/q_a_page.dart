@@ -25,8 +25,6 @@ class _QAPageState extends State<QAPage> {
     fetchPaginatedData(query);
     super.initState();
     scrollController.addListener(() {
-     // print(scrollController.position.maxScrollExtent);
-    //  print(scrollController.position.pixels);
       if(scrollController.position.pixels ==scrollController.position.maxScrollExtent && queryForMore){
         var query = FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true)
             .startAfter([questionList[questionList.length-1].questionPostedDate])
@@ -62,7 +60,7 @@ class _QAPageState extends State<QAPage> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
         decoration: BoxDecoration(
-          color:  Color(0xff3A7F0D),
+          color:  sharedObjectsGlobal.deepGreen,
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         child: Row(
@@ -112,7 +110,7 @@ class _QAPageState extends State<QAPage> {
             elevation: 0,
             title: Text("Question Answer Forum", style:appBarTitleStyle ),
           ),
-          floatingActionButton: askCommunityButton(),
+          floatingActionButton:sharedObjectsGlobal.userSignIn? askCommunityButton():Container(),
           body:  SingleChildScrollView(
               controller: scrollController,
               physics: AlwaysScrollableScrollPhysics(),

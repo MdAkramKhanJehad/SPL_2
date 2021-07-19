@@ -171,7 +171,7 @@ class _OTPPageState extends State<OTPPage> {
                   return Center(child: Text('${data.getShowTime()}',style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12*widthMultiplier,
-                    color: sharedObjectsGlobal.limeGreen,
+                    color: sharedObjectsGlobal.educationGreen,
                     fontFamily: "Mina",
                   ),),);
                 },

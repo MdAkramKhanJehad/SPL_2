@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/navbar_items/home_page/home_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/profile_page/profile_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/q_a_page/q_a_page.dart';
@@ -53,7 +54,7 @@ class _NavbarItemsState extends State<NavbarItems> {
           currentIndex: _pageIndex,
           backgroundColor: Colors.white,
           onTap: onTap,
-          activeColor: Color(0xff59A514),
+          activeColor: sharedObjectsGlobal.educationGreen,
           inactiveColor: Color(0xffACADAC),
           items: [
             BottomNavigationBarItem( icon:Icon(FontAwesomeIcons.home) ),

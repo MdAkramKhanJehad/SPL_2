@@ -43,7 +43,7 @@ class DialogWidget extends StatelessWidget {
                         Navigator.pop(context,"");
                       },
                       child: Text("Cancel",style: TextStyle(
-                        color: Colors.red,fontFamily: "Mina",fontSize: 14
+                        color: sharedObjectsGlobal.errorColor,fontFamily: "Mina",fontSize: 14
                       ),),
                     ),
                   ],

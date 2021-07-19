@@ -413,7 +413,7 @@ class MyProfileTextField extends StatelessWidget {
               height: 1),
         ),
         TextField(
-          maxLines: title =="Bio" ?4:1,
+          maxLines: title =="Bio" ?null:1,
           controller: textEditingController,
           enabled: title == "Phone Number" || !isEditEnable ? false : true,
           style: TextStyle(
