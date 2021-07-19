@@ -10,6 +10,7 @@ import 'package:spl_two_agri_pro/login_signup/otp_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:spl_two_agri_pro/models/user.dart';
 import 'package:spl_two_agri_pro/navbar_items/diseases_page/diseases_page.dart';
+import 'package:spl_two_agri_pro/navbar_items/weather_page/weather_page.dart';
 
 import 'navbar_items/fertilizer_page/fertilizer_page.dart';
 import 'navbar_items/navbar_items.dart';
@@ -67,11 +68,11 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               debugShowCheckedModeBanner: false,
-              home:
+              home:WeatherForecast(),
               //DiseasesPage(),
               //Diseases()
               //FertilizerPage()
-              SplashScreen(userId: userId,password: password,)
+            //  SplashScreen(userId: userId,password: password,)
             //Fertilizer(),
           );
         }

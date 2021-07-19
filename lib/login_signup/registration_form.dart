@@ -97,7 +97,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         color: Colors.black,
         fontFamily: 'Mina',
         fontSize: 16*widthMultiplier,
-        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+        letterSpacing: 0 ,
         fontWeight: FontWeight.w700,
         height: 1
     );
