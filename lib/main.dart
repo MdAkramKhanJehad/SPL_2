@@ -1,29 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spl_two_agri_pro/diseases.dart';
-import 'package:spl_two_agri_pro/fertilizer.dart';
-import 'package:spl_two_agri_pro/login_signup/signup.dart';
-import 'package:spl_two_agri_pro/login_signup/otp_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:spl_two_agri_pro/models/user.dart';
-import 'package:spl_two_agri_pro/navbar_items/diseases_page/diseases_page.dart';
-import 'package:spl_two_agri_pro/navbar_items/weather_page/weather_page.dart';
-
-import 'navbar_items/fertilizer_page/fertilizer_page.dart';
 import 'navbar_items/navbar_items.dart';
 import 'shared/shared_objects.dart';
 import 'shared/shared_functions.dart';
 final SharedFunctions sharedFunctionsGlobal = new SharedFunctions();
 final SharedObjects sharedObjectsGlobal = new SharedObjects();
-// getSharedPreferences()async{
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   return [prefs.getString('userId'),prefs.getString('password')];
-//
-// }
-
 getSharedPreferences()async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = prefs.getString('userId');
@@ -37,6 +23,8 @@ getSharedPreferences()async{
 }
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
   final personalInfo = await getSharedPreferences();

@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
                   image: AssetImage("assets/images/background-low-opacity.png"),
                   fit: BoxFit.cover
               )
-
           ),
         ),
         Scaffold(
@@ -291,57 +290,6 @@ class _HomePageState extends State<HomePage> {
                         )
                     ),
                   ),
-                  // SizedBox(height: 10*heightMultiplier,),
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(horizontal: 10*widthMultiplier),
-                  //   child:  Container(
-                  //       width: 240*widthMultiplier,
-                  //       height: 185*heightMultiplier,
-                  //       padding: EdgeInsets.only(left: 20*widthMultiplier,top: 10*heightMultiplier,bottom: 10*heightMultiplier,right: 5*widthMultiplier),
-                  //       decoration: BoxDecoration(
-                  //         borderRadius : BorderRadius.only(
-                  //           topLeft: Radius.circular(20),
-                  //           topRight: Radius.circular(20),
-                  //           bottomLeft: Radius.circular(20),
-                  //           bottomRight: Radius.circular(20),
-                  //         ),
-                  //         boxShadow : [BoxShadow(
-                  //             color: Color.fromRGBO(0, 0, 0, 0.25),
-                  //             offset: Offset(0,2),
-                  //             blurRadius: 4
-                  //         )],
-                  //         color : Color.fromRGBO(230, 239, 182, 1),
-                  //       ),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.stretch,
-                  //       children: [
-                  //         Text("Plant Sick?",style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.bold,fontFamily: "Mina",fontSize: 27*widthMultiplier),),
-                  //         SizedBox(height: 20*heightMultiplier,),
-                  //         Row(
-                  //           children: [
-                  //             Expanded(
-                  //               flex: 4,
-                  //               child: Text("Find Out\nWhat Happened\nAnd Diagnose",style:
-                  //               TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.w700,fontFamily: "Mina",fontSize: 15*widthMultiplier),),
-                  //             ),
-                  //             Expanded(
-                  //               flex: 7,
-                  //               child: Container(
-                  //                 decoration: BoxDecoration(
-                  //                   image: DecorationImage(
-                  //                     image: AssetImage("assets/images/calculator.png"),
-                  //                     fit: BoxFit.contain,
-                  //                   )
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(height: 10*heightMultiplier,),
                 ],
               ),
             )
@@ -352,29 +300,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-/*   child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 6,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage("assets/images/calculator.png"),
-                                          fit: BoxFit.contain,
-                                        )
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Text('Fertilizer\nCalculator', textAlign: TextAlign.left, style: TextStyle(
-                                      color: Color.fromRGBO(20, 54, 8, 1),
-                                      fontFamily: 'Mina',
-                                      fontSize: 14*widthMultiplier,
-                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.5 /*PERCENT not supported*/
-                                  ),),
-                                )
-                              ],
-                            ),*/
