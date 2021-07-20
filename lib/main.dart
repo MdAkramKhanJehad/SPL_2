@@ -56,13 +56,8 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               debugShowCheckedModeBanner: false,
-              home:
-              //WeatherForecast(),
-              //DiseasesPage(),
-              //Diseases()
-              //FertilizerPage()
-             SplashScreen(userId: userId,password: password,)
-            //Fertilizer(),
+              home:  SplashScreen(userId: userId,password: password,)
+
           );
         }
     );

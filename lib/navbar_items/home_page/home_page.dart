@@ -1,3 +1,4 @@
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,7 +7,7 @@ import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/navbar_items/diseases_page/diseases_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/fertilizer_page/fertilizer_page.dart';
-
+import 'package:spl_two_agri_pro/navbar_items/weather_page/weather_page.dart';
 class HomePage extends StatefulWidget {
 
   @override
@@ -73,7 +74,11 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(todaysDate,textAlign: TextAlign.center,style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 16*widthMultiplier),),
+                        GestureDetector(
+                            onTap: (){
+                              Navigator.push(context,MaterialPageRoute(builder: (context)=>WeatherForecast()));
+                            },
+                            child: Text(todaysDate,textAlign: TextAlign.center,style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 16*widthMultiplier),)),
                         SizedBox(height: 15*heightMultiplier,),
                         Container(
                           height: 40,
@@ -143,8 +148,12 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: (){
-                            print('dictionary');
+                          onTap: ()async{
+                           await LaunchApp.openApp(
+                             openStore: true,
+                             androidPackageName: 'com.agss.agridictionaryoffline',
+                             appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
+                           );
                           },
                           child: Container(
                             width: 125*widthMultiplier,
