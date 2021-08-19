@@ -61,7 +61,6 @@ class _NavbarItemsState extends State<NavbarItems> {
             BottomNavigationBarItem( icon:Icon(FontAwesomeIcons.quora), ),
             BottomNavigationBarItem( icon:Icon(FontAwesomeIcons.user), ),
           ],
-
         ),
       ),
     );

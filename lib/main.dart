@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:spl_two_agri_pro/diseases.dart';
 import 'package:spl_two_agri_pro/models/user.dart';
 import 'navbar_items/navbar_items.dart';
 import 'shared/shared_objects.dart';
@@ -56,7 +57,9 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               debugShowCheckedModeBanner: false,
-              home:  SplashScreen(userId: userId,password: password,)
+              home:
+              //Diseases(),
+              SplashScreen(userId: userId,password: password,)
 
           );
         }
