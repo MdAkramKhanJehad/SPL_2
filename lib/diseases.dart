@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:spl_two_agri_pro/models/diseases_details.dart';
 class Diseases extends StatefulWidget {
   @override
   _DiseasesState createState() => _DiseasesState();
@@ -61,10 +61,49 @@ class _DiseasesState extends State<Diseases> {
       print("${docRef.id} Upload Success");
     });
   }
-
+  List<DiseasesDetails>diseasesDetailsList = [];
   @override
   void initState() {
     super.initState();
+    getAllDiseases();
+  }
+  getAllDiseases(){
+    FirebaseFirestore.instance.collection('diseases').get().then((querySnapshot){
+      querySnapshot.docs.forEach((doc) {
+        List<Disease> diseaseList=[];
+        doc['diseases'].forEach((data){
+          Disease disease = Disease.fromJson(data);
+          diseaseList.add(disease);
+        });
+        DiseasesDetails dd = DiseasesDetails.fromJson(doc,diseaseList);
+        diseasesDetailsList.add(dd);
+      });
+
+    });
+  }
+  addData(){
+    String name;
+    final list=[];
+    diseasesDetailsList.forEach((disease){
+
+     Disease singleDisease = disease.diseaseList[0];
+
+      name = disease.plant;
+     final singleData = {
+       "plant_name": name,
+       "disease_name":singleDisease.disease_name,
+       "images": singleDisease.images,
+      "prevention_cure" :singleDisease.prevention_cure,
+      "symptoms":singleDisease.symptoms,
+     };
+      list.add(singleData);
+    });
+    FirebaseFirestore.instance.collection('diseases').doc('00000000').set({
+      "plant": "জনপ্রিয়",
+      "diseases":list,
+    }).then((value){
+      print("doc added");
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -72,60 +111,63 @@ class _DiseasesState extends State<Diseases> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 300,
-              color: Colors.black12,
+            GestureDetector(
+              onTap: ()=>addData(),
               child: Container(
-                margin: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width/2,
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Positioned(
-                      bottom: 15.0,
-                      child: Container(
-                        height: 120,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding:  EdgeInsets.all(10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text("Disease Name",style: TextStyle(fontSize: 22,fontFamily: "Mina",letterSpacing: 1.2,fontWeight: FontWeight.w800),),
-
-                              Text("Plant",style: TextStyle(color: Colors.grey),),
-
-                            ],
+                height: 300,
+                color: Colors.black12,
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Positioned(
+                        bottom: 15.0,
+                        child: Container(
+                          height: 120,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ),
+                          child: Padding(
+                            padding:  EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text("Disease Name",style: TextStyle(fontSize: 22,fontFamily: "Mina",letterSpacing: 1.2,fontWeight: FontWeight.w800),),
 
+                                Text("Plant",style: TextStyle(color: Colors.grey),),
+
+                              ],
+                            ),
+                          ),
+
+                        ),
                       ),
-                    ),
-                   Container(
-                     decoration: BoxDecoration(
-                       color: Colors.white,borderRadius: BorderRadius.circular(20),
-                       boxShadow: [BoxShadow(color: Colors.black26,offset: Offset(0.0,2.0),blurRadius: 6.0)],
-                     ),
-                     child: Stack(
-                       children: [
-                        
-                         ClipRRect(
-                           borderRadius:BorderRadius.circular(20),
-                           child: Image(height: 180,
-                             width: 180,
-                             fit: BoxFit.cover,
-                             image: AssetImage("assets/images/test.jpeg"),
-                           ),
-                         )
-                       ],
-                     ),
-                   )
-                  ],
+                     Container(
+                       decoration: BoxDecoration(
+                         color: Colors.white,borderRadius: BorderRadius.circular(20),
+                         boxShadow: [BoxShadow(color: Colors.black26,offset: Offset(0.0,2.0),blurRadius: 6.0)],
+                       ),
+                       child: Stack(
+                         children: [
+
+                           ClipRRect(
+                             borderRadius:BorderRadius.circular(20),
+                             child: Image(height: 180,
+                               width: 180,
+                               fit: BoxFit.cover,
+                               image: AssetImage("assets/images/test.jpeg"),
+                             ),
+                           )
+                         ],
+                       ),
+                     )
+                    ],
+                  ),
                 ),
               ),
             )
