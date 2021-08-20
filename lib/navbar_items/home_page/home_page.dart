@@ -1,13 +1,16 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spl_two_agri_pro/admin_works/user_list.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/navbar_items/diseases_page/diseases_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/fertilizer_page/fertilizer_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/weather_page/weather_page.dart';
+import 'package:spl_two_agri_pro/services/customPageRoute.dart';
 class HomePage extends StatefulWidget {
 
   @override
@@ -58,8 +61,31 @@ class _HomePageState extends State<HomePage> {
                 !sharedObjectsGlobal.userSignIn?TextButton(
                     child: Text('Signup',style: TextStyle(fontSize: 16*widthMultiplier,fontWeight: FontWeight.w700,height: 1.5,color:sharedObjectsGlobal.deepGreen),),
                     onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>Signup()))
-                ):Container(),
-                SizedBox(width: 15*widthMultiplier,),
+                ):  Column(
+                  children: [
+                    PopupMenuButton<String>(
+                      icon: Icon(FontAwesomeIcons.alignRight,color:sharedObjectsGlobal.deepGreen,size: 20*widthMultiplier,),
+                      onSelected: (String val){
+                        if(val == 'User List'){
+                          Navigator.push(context,CustomPageRout(widget: UserList()));
+                        }else{
+
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return { 'Add Admin','User List'}.map((String choice) {
+                          return PopupMenuItem<String>(
+                            value: choice,
+                            child: Text(choice),
+
+                          );
+                        }).toList();
+                      },
+                    ),
+                    SizedBox(height: 5,),
+                  ],
+                ),
+                SizedBox(width: 5*widthMultiplier,),
               ],
 
             ),
@@ -109,24 +135,24 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(height: 15*heightMultiplier,),
                   Container(
-                      width:width*60,
-                      height: 20*heightMultiplier,
-                      margin: EdgeInsets.only(right: 40*widthMultiplier),
-                      decoration: BoxDecoration(
-                        color: sharedObjectsGlobal.limeGreen,
-                        borderRadius : BorderRadius.only(
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(5),
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(5),
-                        ),
+                    width:width*60,
+                    height: 20*heightMultiplier,
+                    margin: EdgeInsets.only(right: 40*widthMultiplier),
+                    decoration: BoxDecoration(
+                      color: sharedObjectsGlobal.limeGreen,
+                      borderRadius : BorderRadius.only(
+                        topLeft: Radius.circular(0),
+                        topRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(5),
                       ),
+                    ),
                     child: Row(
                       children: [
                         Expanded(
                           child: Container(
-                            alignment: Alignment.center,
-                            child:Text(localTime,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
+                              alignment: Alignment.center,
+                              child:Text(localTime,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
                           ),
                         ),
                         Container(
@@ -149,11 +175,11 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         GestureDetector(
                           onTap: ()async{
-                           await LaunchApp.openApp(
-                             openStore: true,
-                             androidPackageName: 'com.agss.agridictionaryoffline',
-                             appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
-                           );
+                            await LaunchApp.openApp(
+                              openStore: true,
+                              androidPackageName: 'com.agss.agridictionaryoffline',
+                              appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
+                            );
                           },
                           child: Container(
                             width: 125*widthMultiplier,

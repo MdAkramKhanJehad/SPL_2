@@ -1,8 +1,7 @@
-// ignore: import_of_legacy_library_into_null_safe
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:spl_two_agri_pro/main.dart';
-import 'package:spl_two_agri_pro/models/question.dart';
 class SingleQuestionHeader extends StatefulWidget {
   final List<String> imgList;
   SingleQuestionHeader({required this.imgList});
@@ -81,7 +80,6 @@ class _SingleQuestionHeaderState extends State<SingleQuestionHeader> {
                   ),
                 ),
               ),
-
             ],
           ),
 

@@ -42,14 +42,14 @@ class _QAPageState extends State<QAPage> {
     query
         .get()
         .then((querySnapshot){
-          if(querySnapshot.docs.length ==0){
-            queryForMore = false;
-          }
-          querySnapshot.docs.forEach((doc){
-          Question q = Question.fromJson(doc);
-         questionList.add(q);
-       });
-          setState(() {});
+      if(querySnapshot.docs.length ==0){
+        queryForMore = false;
+      }
+      querySnapshot.docs.forEach((doc){
+        Question q = Question.fromJson(doc);
+        questionList.add(q);
+      });
+      setState(() {});
     });
   }
   Widget  askCommunityButton(){
@@ -133,13 +133,55 @@ class _QAPageState extends State<QAPage> {
                               blurRadius: 4
                           )],
                         ),
-                        child: Column(children: [
-                          question.questionImageLinks.length==0? Container():  SingleQuestionHeader(imgList: question.questionImageLinks,),
-                          Container(
-                            child: SingleQuestionMiddle(question: question,isPostView: false,),
-                          )
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                               question.questionImageLinks.length==0? Container():  SingleQuestionHeader(imgList: question.questionImageLinks,),
+                                SingleQuestionMiddle(question: question,isPostView: false,)
 
-                        ],)),
+                              ],
+                            ),
+                            sharedObjectsGlobal.userGlobal.isAdmin?  Positioned(
+                              top: -25,
+                              right: -7,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 20),
+                                child: PopupMenuButton<String>(
+                                  icon: Icon(FontAwesomeIcons.ellipsisV,
+                                    color:question.questionImageLinks.length==0?Colors.black:Colors.white,
+                                    size: 18,),
+                                  onSelected: (String val){
+                                    if(val == 'Delete This Post'){
+                                      FirebaseFirestore.instance.collection('questions').doc(question.docId).update({
+                                        "visibility" : false,
+                                      }).then((value){
+                                        setState(() {
+                                          questionList.remove(question);
+                                        });
+                                      });
+
+                                    }
+                                  },
+                                  itemBuilder: (BuildContext context) {
+                                    return {'Delete This Post', "View User Profile"}.map((String choice) {
+                                      return PopupMenuItem<String>(
+                                        value: choice,
+                                        child: Text(choice),
+
+                                      );
+                                    }).toList();
+                                  },
+                                ),
+
+                                // IconButton(onPressed: (){
+                                //   print("hello");
+                                // }, icon: Icon(FontAwesomeIcons.ellipsisV),color: Colors.white,iconSize: 18,),
+                              ),
+                            ): Container(),
+                          ],
+                        )
+                    ),
                   );
                 },
               )
@@ -150,3 +192,32 @@ class _QAPageState extends State<QAPage> {
     );
   }
 }
+
+/*sharedObjectsGlobal.userGlobal.isAdmin?  Positioned(
+                top: -25,
+                right: -7,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 20),
+                  child: PopupMenuButton<String>(
+                    icon: Icon(FontAwesomeIcons.ellipsisV,color:Colors.white,size: 18,),
+                    onSelected: (String val){
+                      if(val == 'Delete This Post'){
+
+                      }
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return {'Delete This Post', "View User Profile"}.map((String choice) {
+                        return PopupMenuItem<String>(
+                          value: choice,
+                          child: Text(choice),
+
+                        );
+                      }).toList();
+                    },
+                  ),
+
+                  // IconButton(onPressed: (){
+                  //   print("hello");
+                  // }, icon: Icon(FontAwesomeIcons.ellipsisV),color: Colors.white,iconSize: 18,),
+                ),
+              ): Container(),*/

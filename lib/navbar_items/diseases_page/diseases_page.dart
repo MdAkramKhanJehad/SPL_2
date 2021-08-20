@@ -73,7 +73,7 @@ class _DiseasesPageState extends State<DiseasesPage> {
             automaticallyImplyLeading: false,
             centerTitle: true,
             elevation: 0,
-            leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: sharedObjectsGlobal.deepGreen,size: 18*widthMultiplier ,),
+            leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: sharedObjectsGlobal.deepGreen,size: 22*widthMultiplier ,),
               onPressed: (){
                 Navigator.pop(context);
               },),
