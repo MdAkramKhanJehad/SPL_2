@@ -24,7 +24,6 @@ class _DiseasesPageState extends State<DiseasesPage> {
         });
         DiseasesDetails dd = DiseasesDetails.fromJson(doc,diseaseList);
         diseasesDetailsList.add(dd);
-        print(dd.toString());
       });
       setState(() {
         loading = false;
@@ -135,7 +134,6 @@ class _DiseasesPageState extends State<DiseasesPage> {
                         }).toList(),
                       ),
                     ),
-                    /**/
                   ),
                 ),
                 SizedBox(height: 20*heightMultiplier,),
@@ -173,7 +171,6 @@ class _DiseasesPageState extends State<DiseasesPage> {
                                     )),
                                   ),
                                   SizedBox(height: 10*heightMultiplier,),
-                                  //র
                                   Text("রোগের লক্ষনঃ",style: titleName,),
                                   SizedBox(height: 5*heightMultiplier,),
                                   Column(
