@@ -46,14 +46,7 @@ class _DiseasesPageState extends State<DiseasesPage> {
     final double width = MediaQuery.of(context).size.width;
     double heightMultiplier = height/712;
     double widthMultiplier= width/360;
-    TextStyle titleVal=TextStyle(
-      fontSize: 20*widthMultiplier,fontWeight: FontWeight.w800,
-      color:sharedObjectsGlobal.deepGreen,
-    );
-    TextStyle titleName=TextStyle(
-      fontSize: 17*widthMultiplier,fontWeight: FontWeight.w600,
-      color:Colors.black,
-    );
+
     TextStyle other=TextStyle(
       fontSize: 14*widthMultiplier,fontWeight: FontWeight.w500,
       color:sharedObjectsGlobal.deepGreen,
