@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spl_two_agri_pro/admin_works/add_admin.dart';
 import 'package:spl_two_agri_pro/admin_works/user_list.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
@@ -68,7 +69,8 @@ class _HomePageState extends State<HomePage> {
                       onSelected: (String val){
                         if(val == 'User List'){
                           Navigator.push(context,CustomPageRout(widget: UserList()));
-                        }else{
+                        }else if(val == 'Add Admin'){
+                          Navigator.push(context,CustomPageRout(widget: AddAdmin()));
 
                         }
                       },

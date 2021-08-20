@@ -59,7 +59,6 @@ class _UserListState extends State<UserList> {
       color:sharedObjectsGlobal.deepGreen,
     );
     return Stack(
-      //alignment: Alignment.topCenter,
       children: [
         Container(
           width: width,
