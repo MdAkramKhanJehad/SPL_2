@@ -65,46 +65,36 @@ class _DiseasesState extends State<Diseases> {
   @override
   void initState() {
     super.initState();
-    getAllDiseases();
   }
-  getAllDiseases(){
-    FirebaseFirestore.instance.collection('diseases').get().then((querySnapshot){
-      querySnapshot.docs.forEach((doc) {
-        List<Disease> diseaseList=[];
-        doc['diseases'].forEach((data){
-          Disease disease = Disease.fromJson(data);
-          diseaseList.add(disease);
-        });
-        DiseasesDetails dd = DiseasesDetails.fromJson(doc,diseaseList);
-        diseasesDetailsList.add(dd);
+
+  changeQA()async{
+    List<String> list=[
+
+
+      "2UuPzMXUd0dZ2blhqTJ1",
+      "31k6Kc3kyjZcw3G3heQw",
+      "5JnMSpxBktlQbmdRMdMh",
+      "8yGJnVwPU5H4fvhVfEPs",
+      "A61UgMBYYrPNdAGCC00m",
+      "GdWhHCUBS5jIEstJXS3b",
+      "IK9fwAvfHoTCdVILpiWP",
+      "Nt5iV6tiZxMMTAyJDbpI",
+      "OSvhWyZ2QHySYBI7Bwwv",
+      "Ph2QAqev9vxjR8qaZmYs",
+      "XbBQUV4h4iGo1v4LRd2q",
+      "rmzdgVX5EMWTxJMV3ubc",
+      "xKadClFjg1Imfsg65adH",
+
+    ];
+    list.forEach((element) {
+      FirebaseFirestore.instance.collection('questions').doc(element).update({
+        "visibility" : true,
+      }).then((value){
+        print("updated");
       });
-
     });
   }
-  addData(){
-    String name;
-    final list=[];
-    diseasesDetailsList.forEach((disease){
 
-     Disease singleDisease = disease.diseaseList[0];
-
-      name = disease.plant;
-     final singleData = {
-       "plant_name": name,
-       "disease_name":singleDisease.disease_name,
-       "images": singleDisease.images,
-      "prevention_cure" :singleDisease.prevention_cure,
-      "symptoms":singleDisease.symptoms,
-     };
-      list.add(singleData);
-    });
-    FirebaseFirestore.instance.collection('diseases').doc('00000000').set({
-      "plant": "জনপ্রিয়",
-      "diseases":list,
-    }).then((value){
-      print("doc added");
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,5 +165,43 @@ class _DiseasesState extends State<Diseases> {
         ),
       ),
     );
+  }
+  getAllDiseases(){
+    FirebaseFirestore.instance.collection('diseases').get().then((querySnapshot){
+      querySnapshot.docs.forEach((doc) {
+        List<Disease> diseaseList=[];
+        doc['diseases'].forEach((data){
+          Disease disease = Disease.fromJson(data);
+          diseaseList.add(disease);
+        });
+        DiseasesDetails dd = DiseasesDetails.fromJson(doc,diseaseList);
+        diseasesDetailsList.add(dd);
+      });
+
+    });
+  }
+  addData(){
+    String name;
+    final list=[];
+    diseasesDetailsList.forEach((disease){
+
+      Disease singleDisease = disease.diseaseList[0];
+
+      name = disease.plant;
+      final singleData = {
+        "plant_name": name,
+        "disease_name":singleDisease.disease_name,
+        "images": singleDisease.images,
+        "prevention_cure" :singleDisease.prevention_cure,
+        "symptoms":singleDisease.symptoms,
+      };
+      list.add(singleData);
+    });
+    FirebaseFirestore.instance.collection('diseases').doc('00000000').set({
+      "plant": "জনপ্রিয়",
+      "diseases":list,
+    }).then((value){
+      print("doc added");
+    });
   }
 }

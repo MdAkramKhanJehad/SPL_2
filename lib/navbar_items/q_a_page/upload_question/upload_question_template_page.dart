@@ -349,6 +349,7 @@ class _QuestionTemplateState extends State<QuestionTemplate> {
     'imageLinks':files.length==0? []: downloadUrls,
     'relatedCategories':cropTag==""? []: [cropTag],
     'mainQuestion': questionController.text.trim(),
+    'visibility': true,
     };
     FirebaseFirestore.instance.collection('questions').add(question).then((docRef){
       setState(() {

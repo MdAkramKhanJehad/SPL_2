@@ -21,12 +21,12 @@ class _QAPageState extends State<QAPage> {
   ScrollController scrollController = new ScrollController();
   @override
   void initState() {
-    var query = FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true).limit(perPageLimit);
+    var query = FirebaseFirestore.instance.collection('questions').where('visibility',isEqualTo: true).orderBy('postDate',descending: true).limit(perPageLimit);
     fetchPaginatedData(query);
     super.initState();
     scrollController.addListener(() {
       if(scrollController.position.pixels ==scrollController.position.maxScrollExtent && queryForMore){
-        var query = FirebaseFirestore.instance.collection('questions').orderBy('postDate',descending: true)
+        var query = FirebaseFirestore.instance.collection('questions').where('visibility',isEqualTo: true).orderBy('postDate',descending: true)
             .startAfter([questionList[questionList.length-1].questionPostedDate])
             .limit(perPageLimit);
         fetchPaginatedData(query);

@@ -6,9 +6,10 @@ class Question{
   final Timestamp questionPostedDate;
   final List<String> likes,dislikes;
   int numberOfComments;
+  final bool visibility;
   // final List<dynamic>popularCommentsId;
 
-  Question({required this.questionId,required this.docId,required this.mainQuestion,required this.numberOfComments,required this.relatedCategories,
+  Question({required this.questionId,required this.visibility,required this.docId,required this.mainQuestion,required this.numberOfComments,required this.relatedCategories,
     required this.questionDetails,required this.userId,
     required this.questionImageLinks,required this.questionPostedDate,required this.dislikes,required this.likes});
 
@@ -30,6 +31,7 @@ class Question{
       dislikes:doc.data()!.containsKey("dislikes")? List<String>.from(doc['dislikes'])  :[],
       likes:doc.data()!.containsKey("likes")? List<String>.from(doc['likes']):[],
       relatedCategories: doc.data()!.containsKey('relatedCategories')? List<String>.from(doc['relatedCategories']):[],
+      visibility: doc['visibility'],
     );
   }
 }

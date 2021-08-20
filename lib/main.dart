@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               home:
-              //Diseases(),
+            //  Diseases(),
               SplashScreen(userId: userId,password: password,)
 
           );
