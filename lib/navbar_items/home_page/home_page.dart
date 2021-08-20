@@ -1,34 +1,80 @@
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
 import 'package:spl_two_agri_pro/login_signup/signup.dart';
 import 'package:spl_two_agri_pro/main.dart';
+import 'package:intl/intl.dart';
 import 'package:spl_two_agri_pro/navbar_items/diseases_page/diseases_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/fertilizer_page/fertilizer_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/weather_page/weather_page.dart';
-class HomePage extends StatefulWidget {
+import 'package:weather/weather.dart';
 
+
+class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
-  String todaysDate="Today\nTUE, 20 JUL",temperature='28',location='Azimpur, Dhaka',localTime="Sun rise 6:40 AM",cmnt_on_weather='Cloud through out the day',degree = '°';
+  late WeatherFactory ws;
+  String key =  dotenv.env['WEATHER_KEY'].toString();
+  String lastUpdatedDate="TUE, 20 JUL", lastUpdatedTime="12:00 PM", feelsLike= "20", temperature='28',location='Azimpur, Dhaka',sunrise="6:40 AM", sunset="6:40 PM", comment_on_weather='Cloud through out the day', degree = '°';
   late Icon weather_depended_icon;
+  late List<Weather> _data;
+  double? lat, lon;
+
+
+  Future<Position> locateUser() async {
+    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+
+
+  void queryCurrentWeather() async {
+    try{
+      Position position = await locateUser();
+      lat = position.latitude;
+      lon = position.longitude;
+    }catch(e){
+      print("Error while getting LatLong: $e");
+    }
+
+    Weather weather = (await ws.currentWeatherByLocation(lat!, lon!));
+    _data = [weather];
+
+    setState(() {
+      lastUpdatedDate = DateFormat('EEE, d MMM').format(_data[0].date!);
+      lastUpdatedTime = DateFormat.jm().format(_data[0].date!);
+      temperature= _data[0].temperature.toString().split(" ")[0];
+      location= "${_data[0].areaName.toString()}, ${_data[0].country.toString()}";
+      sunrise= "Sunrise: ${DateFormat.jm().format(_data[0].sunrise!)}";
+      sunset = "Sunset: ${DateFormat.jm().format(_data[0].sunset!)}";
+      comment_on_weather= _data[0].weatherDescription.toString();
+      feelsLike = _data[0].tempFeelsLike.toString().split(" ")[0];
+    });
+    print(_data[0]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ws = new WeatherFactory(key);
+    queryCurrentWeather();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-
     double heightMultiplier = height/712;
     double widthMultiplier= width/360;
     TextStyle appBarTitleStyle=TextStyle(
       fontFamily: "Mina",
       letterSpacing: 0,
       fontSize: 18*widthMultiplier,fontWeight: FontWeight.w800,color:sharedObjectsGlobal.deepGreen,);
+
     return Stack(
       children: [
         Container(
@@ -49,8 +95,8 @@ class _HomePageState extends State<HomePage> {
               automaticallyImplyLeading: false,
               centerTitle: false,
               backwardsCompatibility: false,
-              title:Text("Agri Pro",style: appBarTitleStyle,),
-              actions:[ //sharedObjectsGlobal.userSignIn==false?
+              title:Text("Agri-Pro",style: appBarTitleStyle,),
+              actions:[ 
                 !sharedObjectsGlobal.userSignIn? TextButton(
                   child: Text('Login',style: TextStyle(fontSize: 16*widthMultiplier,fontWeight: FontWeight.w700,height: 1.5,color:sharedObjectsGlobal.deepGreen),),
                   onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>Login())),
@@ -68,18 +114,21 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 30*heightMultiplier,),
+                  SizedBox(height: 10*heightMultiplier,),
                   Container(
                     padding: EdgeInsets.only(left:30*widthMultiplier ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                            onTap: (){
-                              Navigator.push(context,MaterialPageRoute(builder: (context)=>WeatherForecast()));
-                            },
-                            child: Text(todaysDate,textAlign: TextAlign.center,style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 16*widthMultiplier),)),
-                        SizedBox(height: 15*heightMultiplier,),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.white70)
+                          ),
+                          child: Text("Update", style: TextStyle(color: Colors.teal,fontWeight: FontWeight.bold, fontSize: 16*widthMultiplier),),
+                          onPressed: () {
+                            queryCurrentWeather();
+                          }),
+                        SizedBox(height: 7*heightMultiplier,),
                         Container(
                           height: 40,
                           child: Row(
@@ -91,7 +140,15 @@ class _HomePageState extends State<HomePage> {
                               Expanded(
                                 flex: 3,
                                 child: Container(
-                                  color: Colors.teal,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.teal)
+                                    ),
+                                    child: Text("Query Weather", style: TextStyle(fontSize: 15*widthMultiplier, fontWeight: FontWeight.bold),),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context, MaterialPageRoute(builder: (context) => WeatherForecast()));
+                                    }),
                                 ),
                               ),
                               Expanded(
@@ -103,14 +160,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         SizedBox(height: 10*heightMultiplier,),
-                        Text(location,style: TextStyle(color: Colors.black,fontWeight: FontWeight.normal, fontFamily: "Mina",fontSize: 12*widthMultiplier)),
+                        Text(location,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 15*widthMultiplier)),
+                        SizedBox(height: 10*heightMultiplier,),
+                        Text(lastUpdatedDate, textAlign: TextAlign.center, style: TextStyle(color: sharedObjectsGlobal.deepGreen, fontWeight: FontWeight.bold, fontFamily: "Mina", fontSize: 16*widthMultiplier),),
+                        Text(lastUpdatedTime, textAlign: TextAlign.center, style: TextStyle(color: sharedObjectsGlobal.deepGreen, fontWeight: FontWeight.bold, fontFamily: "Mina", fontSize: 13*widthMultiplier),),
                       ],
                     ),
                   ),
                   SizedBox(height: 15*heightMultiplier,),
                   Container(
                       width:width*60,
-                      height: 20*heightMultiplier,
+                      height: 40*heightMultiplier,
                       margin: EdgeInsets.only(right: 40*widthMultiplier),
                       decoration: BoxDecoration(
                         color: sharedObjectsGlobal.limeGreen,
@@ -121,23 +181,47 @@ class _HomePageState extends State<HomePage> {
                           bottomRight: Radius.circular(5),
                         ),
                       ),
-                    child: Row(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            child:Text(localTime,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child:Text(sunrise,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(right: 7*widthMultiplier),
+                              child: Icon(FontAwesomeIcons.solidCircle,size: 6*widthMultiplier,color: Colors.white,),
+                            ),
+                            Expanded(
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  child:Text(sunset,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          padding: EdgeInsets.only(right: 7*widthMultiplier),
-                          child: Icon(FontAwesomeIcons.solidCircle,size: 6*widthMultiplier,color: Colors.white,),
-                        ),
-                        Expanded(
-                          child: Container(
-                              alignment: Alignment.center,
-                              child:Text(cmnt_on_weather,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child:Text("Feels like: ${feelsLike+degree} C",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(right: 7*widthMultiplier),
+                              child: Icon(FontAwesomeIcons.solidCircle,size: 6*widthMultiplier,color: Colors.white,),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child:Text(comment_on_weather,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 11*widthMultiplier))
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -148,13 +232,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: ()async{
-                           await LaunchApp.openApp(
-                             openStore: true,
-                             androidPackageName: 'com.agss.agridictionaryoffline',
-                             appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
-                           );
-                          },
+                          onTap: (){},
                           child: Container(
                             width: 125*widthMultiplier,
                             height: 150*heightMultiplier,
@@ -176,7 +254,6 @@ class _HomePageState extends State<HomePage> {
                               )],
                               color : Colors.transparent,
                             ),
-
                           ),
                         ),
                         SizedBox(width: 20*widthMultiplier,),
