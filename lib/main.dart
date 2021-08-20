@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:spl_two_agri_pro/diseases.dart';
 import 'package:spl_two_agri_pro/models/user.dart';
 import 'navbar_items/navbar_items.dart';
+import 'services/bad_status_dialog.dart';
 import 'shared/shared_objects.dart';
 import 'shared/shared_functions.dart';
 final SharedFunctions sharedFunctionsGlobal = new SharedFunctions();

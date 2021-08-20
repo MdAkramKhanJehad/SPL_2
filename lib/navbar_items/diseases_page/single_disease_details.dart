@@ -32,16 +32,6 @@ class _SingleDiseaseDetailsState extends State<SingleDiseaseDetails> {
       fontSize: 18*widthMultiplier,fontWeight: FontWeight.w600,
       color:Colors.black,
     );
-
-    /*  decoration: BoxDecoration(
-                      color: sharedObjectsGlobal.offWhite,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow : [BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          offset: Offset(0,3),
-                          blurRadius: 4
-                      )],
-                    ),*/
     return Stack(
       children: [
         Container(

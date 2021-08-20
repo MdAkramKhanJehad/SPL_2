@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spl_two_agri_pro/main.dart';
-class AppExitDialog extends StatefulWidget {
+class BadStatusDialog extends StatefulWidget {
+  const BadStatusDialog({Key? key}) : super(key: key);
 
   @override
-  _AppExitDialogState createState() => _AppExitDialogState();
+  _BadStatusDialogState createState() => _BadStatusDialogState();
 }
 
-class _AppExitDialogState extends State<AppExitDialog> {
+class _BadStatusDialogState extends State<BadStatusDialog> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -16,14 +17,20 @@ class _AppExitDialogState extends State<AppExitDialog> {
     double widthMultiplier= width/360;
     TextStyle titleStyle = TextStyle(
         fontFamily: "Mina",
-        fontSize: 18*widthMultiplier,
-        color: sharedObjectsGlobal.deepGreen,
-        fontWeight: FontWeight.w700
+        fontSize: 20*widthMultiplier,
+        color: sharedObjectsGlobal.errorColor,
+        fontWeight: FontWeight.w800
+    );
+    TextStyle subtitleStyle = TextStyle(
+        fontFamily: "Mina",
+        fontSize: 12*widthMultiplier,
+        color:Colors.black38,
+        fontWeight: FontWeight.w500
     );
 
     TextStyle buttonTextStyle = TextStyle(
         fontFamily: "Mina",
-        fontSize: 16*widthMultiplier,
+        fontSize: 14*widthMultiplier,
         color: Colors.white,
         fontWeight: FontWeight.w600
     );
@@ -37,7 +44,7 @@ class _AppExitDialogState extends State<AppExitDialog> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20*widthMultiplier,vertical: 15*heightMultiplier),
-            height: 200*heightMultiplier,
+            height: 250*heightMultiplier,
             width: 300*widthMultiplier,
             decoration: new BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -50,7 +57,9 @@ class _AppExitDialogState extends State<AppExitDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(height: 50*heightMultiplier,),
-                  Text("Do You Want To Exit?",style: titleStyle,),
+
+                  Text("Continue Without Signin?",textAlign: TextAlign.center,style: titleStyle,),
+
                   SizedBox(height: 20*heightMultiplier,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +67,7 @@ class _AppExitDialogState extends State<AppExitDialog> {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: () =>SystemNavigator.pop(),
+                          onTap: () => Navigator.of(context).pop(true),
                           child: Container(
                             height: 40*heightMultiplier,
                             decoration: BoxDecoration(
@@ -71,7 +80,7 @@ class _AppExitDialogState extends State<AppExitDialog> {
                               )],
                               //BoxShadow
                             ),
-                            child: Center(child: Text("Yes",style: buttonTextStyle,)),
+                            child: Center(child: Text("Yes Continue",style: buttonTextStyle,)),
                           ),
                         ),
                       ),
@@ -91,13 +100,15 @@ class _AppExitDialogState extends State<AppExitDialog> {
                               )],
                               //BoxShadow
                             ),
-                            child: Center(child: Text("No",style: buttonTextStyle,)),
+                            child: Center(child: Text("Quit App",style: buttonTextStyle,)),
 
                           ),
                         ),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10*heightMultiplier,),
+                  Text("Your account has been deleted for some unethical activity",textAlign: TextAlign.center,style: subtitleStyle,),
                 ],
               ),
             ),

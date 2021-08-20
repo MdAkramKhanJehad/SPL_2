@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/navbar_items/home_page/home_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/profile_page/profile_page.dart';
 import 'package:spl_two_agri_pro/navbar_items/q_a_page/q_a_page.dart';
 import 'package:spl_two_agri_pro/services/app_exit_dialog.dart';
+import 'package:spl_two_agri_pro/services/bad_status_dialog.dart';
 class NavbarItems extends StatefulWidget {
   @override
   _NavbarItemsState createState() => _NavbarItemsState();
 }
 
 class _NavbarItemsState extends State<NavbarItems> {
+
+  bool isUpdating = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   int _pageIndex=0;
   PageController  pageController=PageController();
@@ -32,6 +36,29 @@ class _NavbarItemsState extends State<NavbarItems> {
     return await showDialog(context: context,
         builder: (context)=>AppExitDialog()
     )?? false;
+  }
+  @override
+  void initState() {
+    splashScreenDelay();
+    super.initState();
+
+  }
+  splashScreenDelay(){
+    Future.delayed(Duration(milliseconds: 1000),(){
+      checkUserStatus();
+    });
+  }
+ Future<void> checkUserStatus()async{
+    if(!sharedObjectsGlobal.userGlobal.status){
+      isUpdating =   await showDialog(context: context,barrierDismissible: false,
+          builder: (context)=>BadStatusDialog())?true:false;
+      if(isUpdating){
+        sharedFunctionsGlobal.clearAppDataAfterLogout();
+        setState(() {});
+      }else{
+        SystemNavigator.pop();
+      }
+    }
   }
   @override
   Widget build(BuildContext context) {

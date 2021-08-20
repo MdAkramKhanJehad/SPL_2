@@ -14,7 +14,7 @@ class SharedObjects{
   double mobilePortraitHeight=0.0,mobilePortraitWidth=0.0 ;
   FirebaseAuth firebaseAuth =FirebaseAuth.instance;
   double heightMultiplier= 0.0,widthMultiplier = 0.0,areaMultiplier=0.0;
-  AppUser userGlobal = AppUser(bio: "", district: "", division: "", password: "", imageUrl: "", phone_number: "", user_name: "") ;
+  AppUser userGlobal = AppUser(bio: "", district: "", division: "", password: "", imageUrl: "", phone_number: "", user_name: "",isAdmin: false,status: true) ;
   bool userSignIn = false;
   String userDefaultImage =  "https://firebasestorage.googleapis.com/v0/b/agri-pro-ccc60.appspot.com/o/shared_photos%2Fuser.png?alt=media&token=ba3de876-3a5a-41ff-974b-2d81fcd4dee9";
   late TextStyle appBarTitleStyle, bodyTitleStyle, bodySubtitleStyle, bodyNormalTextStyle, bodyCaptionStyle, errorTextStyle;
