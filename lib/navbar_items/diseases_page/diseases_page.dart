@@ -63,11 +63,10 @@ class _DiseasesPageState extends State<DiseasesPage> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: Colors.white,
-            // image: DecorationImage(
-            //     image: AssetImage("assets/images/home-page-bg.png"),
-            //     fit: BoxFit.cover
-            // )
+              image: DecorationImage(
+                  image: AssetImage("assets/images/background-low-opacity.png"),
+                  fit: BoxFit.cover
+              )
           ),
         ),
         loading? Container(height: height,width: width,child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),) : Scaffold(

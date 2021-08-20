@@ -19,13 +19,14 @@ class Disease{
 
   Disease({required this.disease_name,required this.plant_name,required this.images,required this.prevention_cure,required this.symptoms});
   factory Disease.fromJson(doc){
-    return Disease(
 
+    return Disease(
         disease_name: doc['disease_name'],
         images: List<String>.from(doc['images']),
         prevention_cure: List<String>.from(doc['prevention_cure']),
         symptoms: List<String>.from(doc['symptoms']),
-        plant_name: doc.data()!.containsKey('plant_name')?doc['plant_name']:"",
+        plant_name: doc.containsKey('plant_name')?doc['plant_name']:"",
+      //doc.data()!.containsKey('mainQuestion')?doc['mainQuestion']:"",
     );
   }
 
