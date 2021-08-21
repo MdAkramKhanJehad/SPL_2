@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class FertilizerCalculator{
   final List<String> units;
   final String name;
