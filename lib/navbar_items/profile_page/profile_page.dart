@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.teal.shade400,
         elevation: 4,
 
         title: Text(

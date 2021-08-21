@@ -74,16 +74,13 @@ class _FertilizerPageState extends State<FertilizerPage> {
           height: height,
           decoration: BoxDecoration(
             color: Colors.white,
-            // image: DecorationImage(
-            //     image: AssetImage("assets/images/home-page-bg.png"),
-            //     fit: BoxFit.cover
-            // )
+
           ),
         ),
        loading? Container(height: height,width: width,child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),) : Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor:  Colors.white,
+            backgroundColor:  Colors.teal.shade400,
             backwardsCompatibility: false,
             automaticallyImplyLeading: false,
             centerTitle: true,

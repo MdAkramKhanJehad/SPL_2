@@ -5,7 +5,6 @@ import 'package:spl_two_agri_pro/main.dart';
 import 'package:spl_two_agri_pro/models/diseases_details.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:spl_two_agri_pro/navbar_items/diseases_page/single_disease_details.dart';
-
 import 'package:spl_two_agri_pro/navbar_items/q_a_page/single_question_layout/single_question_header_section.dart';
 class DiseasesPage extends StatefulWidget {
   @override
@@ -68,7 +67,7 @@ class _DiseasesPageState extends State<DiseasesPage> {
         loading? Container(height: height,width: width,child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),) : Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor:  Colors.white,
+            backgroundColor:  Colors.teal.shade400,
             backwardsCompatibility: false,
             automaticallyImplyLeading: false,
             centerTitle: true,
