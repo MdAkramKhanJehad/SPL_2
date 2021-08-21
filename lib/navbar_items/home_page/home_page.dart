@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       comment_on_weather= _data[0].weatherDescription.toString();
       feelsLike = _data[0].tempFeelsLike.toString().split(" ")[0];
     });
-    print(_data[0]);
+    // print(_data[0]);
   }
 
   @override
@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Expanded(
                                   flex: 3,
-                                  child: Text("$temperature$degree C",style: TextStyle(color: sharedObjectsGlobal.limeGreen,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 32*widthMultiplier))
+                                  child: Text("$temperature$degree C",style: TextStyle(color: sharedObjectsGlobal.limeGreen,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 27))
                               ),
                               Expanded(
                                 flex: 3,
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all<Color>(Colors.teal)
                                     ),
-                                    child: Text("Query Weather", style: TextStyle(fontSize: 15*widthMultiplier, fontWeight: FontWeight.bold),),
+                                    child: Text("Query Weather", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                     onPressed: () {
                                       Navigator.push(
                                         context, MaterialPageRoute(builder: (context) => WeatherForecast()));

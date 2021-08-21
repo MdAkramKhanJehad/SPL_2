@@ -126,59 +126,61 @@ class _OTPPageState extends State<OTPPage> {
           //title:
 
         ),
-        body: Container(
-          height: height,
-          width: width,//,vertical: 50*heightMultiplier
-          margin: EdgeInsets.only(left: 30*widthMultiplier,right: 30*widthMultiplier,bottom: 50*heightMultiplier),
-          child:Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Text('Verification Code', textAlign: TextAlign.center, style: sharedObjectsGlobal.bodyTitleStyle,),
-              ),
-              SizedBox(height: 25*heightMultiplier,),
-              Text('Please type the verification code sent to your phone ${widget.phoneNumber}',
-                textAlign: TextAlign.center, maxLines: 6,style: sharedObjectsGlobal.bodySubtitleStyle,),
-              SizedBox(height: 40*heightMultiplier,),
-              errorText!=""? Container(
-                child: Text(errorText,textAlign: TextAlign.center,
-                  style: sharedObjectsGlobal.errorTextStyle,),)
-                  :Container(),
-              PinFieldAutoFill(
-                decoration: UnderlineDecoration(
-                  textStyle: TextStyle(fontSize: 20, color: Colors.black),
-                  colorBuilder: FixedColorBuilder(Colors.black.withOpacity(0.3)),
+        body: SingleChildScrollView(
+          child: Container(
+            height: height,
+            width: width,//,vertical: 50*heightMultiplier
+            margin: EdgeInsets.only(left: 30*widthMultiplier,right: 30*widthMultiplier,bottom: 50*heightMultiplier),
+            child:Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text('Verification Code', textAlign: TextAlign.center, style: sharedObjectsGlobal.bodyTitleStyle,),
                 ),
-                currentCode: _code,
-                onCodeSubmitted: (code) {},
-                onCodeChanged: (code) {
-                  if (code!.length == 6) {
-                    FocusScope.of(context).requestFocus(FocusNode());
+                SizedBox(height: 25*heightMultiplier,),
+                Text('Please type the verification code sent to your phone ${widget.phoneNumber}',
+                  textAlign: TextAlign.center, maxLines: 6,style: sharedObjectsGlobal.bodySubtitleStyle,),
+                SizedBox(height: 40*heightMultiplier,),
+                errorText!=""? Container(
+                  child: Text(errorText,textAlign: TextAlign.center,
+                    style: sharedObjectsGlobal.errorTextStyle,),)
+                    :Container(),
+                PinFieldAutoFill(
+                  decoration: UnderlineDecoration(
+                    textStyle: TextStyle(fontSize: 20, color: Colors.black),
+                    colorBuilder: FixedColorBuilder(Colors.black.withOpacity(0.3)),
+                  ),
+                  currentCode: _code,
+                  onCodeSubmitted: (code) {},
+                  onCodeChanged: (code) {
+                    if (code!.length == 6) {
+                      FocusScope.of(context).requestFocus(FocusNode());
 
-                    onCodeSent(code);
-                  }
-                },
-              ),
-              SizedBox(height: 40*heightMultiplier,),
-             Consumer<TimerInfo>(
-                builder: (context,data,_){
+                      onCodeSent(code);
+                    }
+                  },
+                ),
+                SizedBox(height: 40*heightMultiplier,),
+               Consumer<TimerInfo>(
+                  builder: (context,data,_){
 
-                  if(data.isTimeUp){
-                    timer.cancel();
+                    if(data.isTimeUp){
+                      timer.cancel();
 
-                  }
-                  return Center(child: Text('${data.getShowTime()}',style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12*widthMultiplier,
-                    color: sharedObjectsGlobal.educationGreen,
-                    fontFamily: "Mina",
-                  ),),);
-                },
-              ),
+                    }
+                    return Center(child: Text('${data.getShowTime()}',style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12*widthMultiplier,
+                      color: sharedObjectsGlobal.educationGreen,
+                      fontFamily: "Mina",
+                    ),),);
+                  },
+                ),
 
-            ],
-          ) ,
+              ],
+            ) ,
+          ),
         )
     );
   }
