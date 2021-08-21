@@ -73,7 +73,8 @@ class _HomePageState extends State<HomePage> {
     TextStyle appBarTitleStyle=TextStyle(
       fontFamily: "Mina",
       letterSpacing: 0,
-      fontSize: 18*widthMultiplier,fontWeight: FontWeight.w800,color:sharedObjectsGlobal.deepGreen,);
+      fontSize: 18*widthMultiplier,fontWeight: FontWeight.w800,color:sharedObjectsGlobal.deepGreen,
+    );
 
     return Stack(
       children: [
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.transparent,
             appBar:AppBar(
               elevation: 0,
-              backgroundColor:  Colors.transparent,
+              backgroundColor:  Colors.teal.shade400,
               automaticallyImplyLeading: false,
               centerTitle: false,
               backwardsCompatibility: false,

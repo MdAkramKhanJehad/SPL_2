@@ -281,16 +281,16 @@ class _WeatherForecastState extends State<WeatherForecast> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor:  Colors.white,
+          backgroundColor:  Colors.teal.shade400,
           backwardsCompatibility: false,
           automaticallyImplyLeading: false,
           centerTitle: true,
           elevation: 0,
-          leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.teal.shade800,size: 18*widthMultiplier ,),
+          leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.teal.shade900,size: 18*widthMultiplier ,),
             onPressed: (){
               Navigator.pop(context);
             },),
-          title: Text("Weather Forecast", style:TextStyle( fontFamily: "Mina", letterSpacing: 0, fontSize: 20*widthMultiplier,fontWeight: FontWeight.w800, color:Colors.teal.shade800,) ),
+          title: Text("Weather Forecast", style:TextStyle( fontFamily: "Mina", letterSpacing: 0, fontSize: 20*widthMultiplier,fontWeight: FontWeight.w800, color:Colors.teal.shade900,) ),
         ),
         body: Column(
           children: <Widget>[
