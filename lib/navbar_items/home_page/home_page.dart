@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spl_two_agri_pro/admin_works/add_admin.dart';
+import 'package:spl_two_agri_pro/admin_works/add_diseases.dart';
 import 'package:spl_two_agri_pro/admin_works/user_list.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spl_two_agri_pro/login_signup/login.dart';
@@ -120,11 +121,13 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(context,CustomPageRout(widget: UserList()));
                         }else if(val == 'Add Admin'){
                           Navigator.push(context,CustomPageRout(widget: AddAdmin()));
+                        }else if(val == 'Add Disease'){
 
+                          Navigator.push(context,CustomPageRout(widget: AddDiseases()));
                         }
                       },
                       itemBuilder: (BuildContext context) {
-                        return { 'Add Admin','User List'}.map((String choice) {
+                        return { 'Add Admin','User List','Add Disease'}.map((String choice) {
                           return PopupMenuItem<String>(
                             value: choice,
                             child: Text(choice),
