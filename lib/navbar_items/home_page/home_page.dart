@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  void queryCurrentWeather() async {
+   queryCurrentWeather() async {
     try{
       Position position = await locateUser();
       lat = position.latitude;
@@ -61,7 +61,6 @@ class _HomePageState extends State<HomePage> {
       comment_on_weather= _data[0].weatherDescription.toString();
       feelsLike = _data[0].tempFeelsLike.toString().split(" ")[0];
     });
-    // print(_data[0]);
   }
 
   @override
@@ -112,7 +111,8 @@ class _HomePageState extends State<HomePage> {
                 !sharedObjectsGlobal.userSignIn?TextButton(
                     child: Text('Signup',style: TextStyle(fontSize: 16*widthMultiplier,fontWeight: FontWeight.w700,height: 1.5,color:sharedObjectsGlobal.deepGreen),),
                     onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>Signup()))
-                ):  Column(
+                ): sharedObjectsGlobal.userGlobal.isAdmin?
+                Column(
                   children: [
                     PopupMenuButton<String>(
                       icon: Icon(FontAwesomeIcons.alignRight,color:sharedObjectsGlobal.deepGreen,size: 20*widthMultiplier,),
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 5,),
                   ],
-                ),
+                ): Container(),
                 SizedBox(width: 5*widthMultiplier,),
               ],
 

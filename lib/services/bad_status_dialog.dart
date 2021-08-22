@@ -57,9 +57,7 @@ class _BadStatusDialogState extends State<BadStatusDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(height: 50*heightMultiplier,),
-
                   Text("Continue Without Signin?",textAlign: TextAlign.center,style: titleStyle,),
-
                   SizedBox(height: 20*heightMultiplier,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
