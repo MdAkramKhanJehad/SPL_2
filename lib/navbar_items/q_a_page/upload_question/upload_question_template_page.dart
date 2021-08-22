@@ -51,29 +51,6 @@ class _QuestionTemplateState extends State<QuestionTemplate> {
                     width: double.maxFinite,
                     child: Image.file(files[i],fit: BoxFit.cover,),
                   ),
-                  // Positioned.fill(
-                  //   child: Align(alignment: Alignment.center,
-                  //     child: GestureDetector(
-                  //       onTap: (){
-                  //        setState(() {
-                  //          //files.remove(files[i]);
-                  //          tiles.remove(tiles[i]);
-                  //        });
-                  //        print(files.length);
-                  //       },
-                  //       child: Container(
-                  //         height: 25*sharedObjectsGlobal.heightMultiplier,
-                  //         padding: EdgeInsets.symmetric(horizontal: 15*sharedObjectsGlobal.widthMultiplier),
-                  //         decoration: BoxDecoration(
-                  //           border: Border.all(color: Colors.white,width: 2),
-                  //           borderRadius: BorderRadius.circular(4),
-                  //           color: Colors.transparent
-                  //         ),
-                  //         child: Text("Delete",style: TextStyle(fontSize: 11*sharedObjectsGlobal.widthMultiplier,fontFamily: "Mina",color: Colors.white,),),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
                 ],
               )
           ),
@@ -111,7 +88,7 @@ class _QuestionTemplateState extends State<QuestionTemplate> {
       key: _scaffoldKey,
       backgroundColor:Colors.blueGrey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.teal.shade400,
         backwardsCompatibility: false,
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -128,7 +105,7 @@ class _QuestionTemplateState extends State<QuestionTemplate> {
             openFileExplorer();
           },child: Icon(FontAwesomeIcons.paperclip,color:filesEr?sharedObjectsGlobal.errorColor: sharedObjectsGlobal.deepGreen,)),
           SizedBox(width: 15,),
-          TextButton(onPressed: (){uploadButtonFunction(context);}, child: Text("Upload")),
+          TextButton(onPressed: (){uploadButtonFunction(context);}, child: Text("Upload",style: TextStyle(color: Colors.white),)),
 
           SizedBox(width: 15,),
         ],

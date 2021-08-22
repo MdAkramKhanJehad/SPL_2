@@ -1,7 +1,5 @@
-
-import 'package:external_app_launcher/external_app_launcher.dart';
+// import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -262,13 +260,13 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: ()async{
-                            await LaunchApp.openApp(
-                              openStore: true,
-                              androidPackageName: 'com.agss.agridictionaryoffline',
-                              appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
-                            );
-                          },
+                          // onTap: ()async{
+                          //   await LaunchApp.openApp(
+                          //     openStore: true,
+                          //     androidPackageName: 'com.agss.agridictionaryoffline',
+                          //     appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
+                          //   );
+                          // },
                           child: Container(
                             width: 125*widthMultiplier,
                             height: 150*heightMultiplier,
