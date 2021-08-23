@@ -64,6 +64,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
         "imageUrl":sharedObjectsGlobal.userDefaultImage,
         "bio":"",
         "phone_number": widget.firebaseUser!.phoneNumber,
+        "is_admin": false,
+        "status": true,
       };
       createUserInFirebase(data,widget.firebaseUser!.phoneNumber,encrypted.toString());
     }

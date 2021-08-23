@@ -124,6 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Scaffold  signOutScaffold(double heightMultiplier, double widthMultiplier){
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -140,65 +141,80 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 2),
         ),
       ),
-      body: Column(
+      body:Stack(
         children: [
-          SizedBox(height: 15*heightMultiplier,),
-          GestureDetector(
-            onTap: ()=>handleNonLoginClock(),
-            child: Container(
-              height: 120*heightMultiplier,
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 2*widthMultiplier),
-              padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 10*widthMultiplier),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: sharedObjectsGlobal.deepGreen),
-
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/no-profile.png"),
-                            fit: BoxFit.contain,
-                          )
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 7*heightMultiplier),
-                      child: Column(
-                        children: [
-                          Text("Join Agri-Pro Community for more exclusive features.",textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.w700,color: sharedObjectsGlobal.deepGreen,fontSize: 13*widthMultiplier,fontFamily: "Mina"),),
-                          SizedBox(height: 5*heightMultiplier,),
-                          GestureDetector(
-                            onTap: ()=>handleNonLoginClock(),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 45*widthMultiplier),
-                              child: Text("Login",  style: TextStyle(fontWeight: FontWeight.bold,color: sharedObjectsGlobal.deepGreen,fontSize: 14*widthMultiplier,fontFamily: "Mina"),),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(2),
-                                border: Border.all(color: sharedObjectsGlobal.deepGreen,width: 2),
-
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/background-low-opacity.png"),
+                    fit: BoxFit.cover
+                )
             ),
-          )
+          ),
+          Column(
+            children: [
+              SizedBox(height: 15*heightMultiplier,),
+              GestureDetector(
+                onTap: ()=>handleNonLoginClock(),
+                child: Container(
+
+                  height: 120*heightMultiplier,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 4*widthMultiplier),
+                  padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 10*widthMultiplier),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: sharedObjectsGlobal.deepGreen,width: 3),
+                    color: sharedObjectsGlobal.offWhite
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/no-profile.png"),
+                                fit: BoxFit.contain,
+                              )
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 7,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(vertical: 7*heightMultiplier),
+                          child: Column(
+                            children: [
+                              Text("Join Agri-Pro Community for more exclusive features.",textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.w700,color: sharedObjectsGlobal.deepGreen,fontSize: 13*widthMultiplier,fontFamily: "Mina"),),
+                              SizedBox(height: 5*heightMultiplier,),
+                              GestureDetector(
+                                onTap: ()=>handleNonLoginClock(),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5*heightMultiplier,horizontal: 45*widthMultiplier),
+                                  child: Text("Login",  style: TextStyle(fontWeight: FontWeight.bold,color: sharedObjectsGlobal.deepGreen,fontSize: 14*widthMultiplier,fontFamily: "Mina"),),
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(2),
+                                    border: Border.all(color: sharedObjectsGlobal.deepGreen,width: 2),
+
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

@@ -326,22 +326,22 @@ class _HomePageState extends State<HomePage> {
                             child: Stack(
                               children: [
                                 Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    SizedBox(height: 25*heightMultiplier,),
+                                    SizedBox(height: 40*heightMultiplier,),
                                     Container(
                                       padding: EdgeInsets.only(right: 12*widthMultiplier),
                                       width: width,
-                                      child: Text("PLANT\nSICK?",textAlign: TextAlign.right,
+                                      child: Text("Plant Sick?\n See the",textAlign: TextAlign.right,
                                         style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.bold,
-                                            fontFamily: "Mina",fontSize: 14*widthMultiplier),),
+                                            fontFamily: "Mina",fontSize: 11*widthMultiplier),),
                                     ),
-                                    SizedBox(height: 15*heightMultiplier,),
                                     Container(
                                       padding: EdgeInsets.only(right: 12*widthMultiplier),
                                       width: width,
-                                      child: Text("Find Out\nWhat Happened\nAnd Diagnose",textAlign: TextAlign.right,
-                                        style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.w500,
-                                            fontFamily: "Mina",fontSize: 11*widthMultiplier),),
+                                      child: Text("DISEASE\nDETAILS",textAlign: TextAlign.right,
+                                        style: TextStyle(color: sharedObjectsGlobal.deepGreen,fontWeight: FontWeight.w500,height: 1.3,
+                                            fontFamily: "Mina",fontSize: 17*widthMultiplier),),
                                     ),
                                   ],
                                 ),

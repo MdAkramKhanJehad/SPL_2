@@ -94,7 +94,7 @@ class _QAPageState extends State<QAPage> {
           height: height,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/home-page-bg.png"),
+                  image: AssetImage("assets/images/background-low-opacity.png"),
                   fit: BoxFit.cover
               )
           ),
