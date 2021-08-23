@@ -164,7 +164,7 @@ class _QAPageState extends State<QAPage> {
                                     }
                                   },
                                   itemBuilder: (BuildContext context) {
-                                    return {'Delete This Post', "View User Profile"}.map((String choice) {
+                                    return {'Delete This Post'}.map((String choice) {
                                       return PopupMenuItem<String>(
                                         value: choice,
                                         child: Text(choice),
