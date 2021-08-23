@@ -11,6 +11,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 
 class WeatherForecast extends StatefulWidget {
+  double? lat, lon;
+  WeatherForecast(this.lat, this.lon);
+
   @override
   _WeatherForecastState createState() => _WeatherForecastState();
 }
@@ -22,14 +25,12 @@ class _WeatherForecastState extends State<WeatherForecast> {
   late WeatherFactory ws;
   List<Weather> _data = [];
   AppState _state = AppState.NOT_DOWNLOADED;
-  double? lat, lon;
   final myController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     ws = new WeatherFactory(key);
-    getGeoLocation();
   }
 
   void queryForecast(bool isCity,String city) async {
@@ -45,7 +46,7 @@ class _WeatherForecastState extends State<WeatherForecast> {
         forecasts = (await ws.fiveDayForecastByCityName(city)) ;
       }
       else{
-        forecasts = (await ws.fiveDayForecastByLocation(lat!, lon!)).cast<Weather>() ;
+        forecasts = (await ws.fiveDayForecastByLocation(widget.lat!, widget.lon!)).cast<Weather>() ;
       }
       setState(() {
         _data = forecasts;
@@ -73,7 +74,7 @@ class _WeatherForecastState extends State<WeatherForecast> {
         weather = (await ws.currentWeatherByCityName(city));
       }
       else {
-        weather = (await ws.currentWeatherByLocation(lat!, lon!));
+        weather = (await ws.currentWeatherByLocation(widget.lat!, widget.lon!));
       }
 
       setState(() {
@@ -164,20 +165,6 @@ class _WeatherForecastState extends State<WeatherForecast> {
       : _state == AppState.DOWNLOADING
       ? contentDownloading()
       : contentNotDownloaded(_indicator);
-
-
-  Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  }
-
-  void getGeoLocation() async {
-    Position position = await locateUser();
-    lat = position.latitude;
-    lon = position.longitude;
-
-    print(position.longitude.toString());
-    print(position.latitude.toString());
-  }
 
   IconButton IconMaker(BuildContext context,IconData icon,double sizee){
     return IconButton(

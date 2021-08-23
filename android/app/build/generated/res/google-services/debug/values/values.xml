@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">351900493769-01qtt3sl7f68762v26utmncjh83ddog2.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">351900493769</string>
+    <string name="google_api_key" translatable="false">AIzaSyCnLPoL9etwg6NGLosk5r-fw13SM7ieog0</string>
+    <string name="google_app_id" translatable="false">1:351900493769:android:850566ab7fb13ad47b6a18</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCnLPoL9etwg6NGLosk5r-fw13SM7ieog0</string>
+    <string name="google_storage_bucket" translatable="false">agri-pro-ccc60.appspot.com</string>
+    <string name="project_id" translatable="false">agri-pro-ccc60</string>
+</resources>
