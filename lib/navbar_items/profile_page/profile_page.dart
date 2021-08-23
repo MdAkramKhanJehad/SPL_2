@@ -50,7 +50,10 @@ class _ProfilePageState extends State<ProfilePage> {
           textColor: Colors.white,
           fontSize: 13.0*sharedObjectsGlobal.widthMultiplier
       );
-      isEditEnable = false;
+
+      setState(() {
+        isEditEnable = false;
+      });
     });
   }
 

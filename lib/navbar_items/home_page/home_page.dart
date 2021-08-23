@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -27,8 +28,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late WeatherFactory ws;
   String key =  dotenv.env['WEATHER_KEY'].toString();
-  String lastUpdatedDate="TUE, 20 JUL", lastUpdatedTime="12:00 PM", feelsLike= "20", temperature='28',location='Azimpur, Dhaka',sunrise="6:40 AM",
-      sunset="6:40 PM", comment_on_weather='Cloud through out the day', degree = '°';
+  String lastUpdatedDate="${DateFormat.yMMMd().add_jm().format(Timestamp.now().toDate())}", lastUpdatedTime="", feelsLike= "? ", temperature='?',
+      location='Bangladesh',sunrise="? AM",
+      sunset="? PM", comment_on_weather='', degree = '°';
   late Icon weather_depended_icon;
   late List<Weather> _data;
   double? lat, lon;
@@ -196,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(height: 10*heightMultiplier,),
                         Text(location,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: "Mina",fontSize: 15*widthMultiplier)),
                         SizedBox(height: 10*heightMultiplier,),
-                        Text(lastUpdatedDate, textAlign: TextAlign.center, style: TextStyle(color: sharedObjectsGlobal.deepGreen, fontWeight: FontWeight.bold, fontFamily: "Mina", fontSize: 16*widthMultiplier),),
+                        Text(lastUpdatedDate, maxLines: 2,textAlign: TextAlign.center, style: TextStyle(color: sharedObjectsGlobal.deepGreen, fontWeight: FontWeight.bold, fontFamily: "Mina", fontSize: 16*widthMultiplier),),
                         Text(lastUpdatedTime, textAlign: TextAlign.center, style: TextStyle(color: sharedObjectsGlobal.deepGreen, fontWeight: FontWeight.bold, fontFamily: "Mina", fontSize: 13*widthMultiplier),),
                       ],
                     ),
