@@ -1,10 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="iit.du.spl.bsse.ten.spl_two_agri_pro">
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
-        android:label="Spl-2"
+        android:label="Agri-Pro"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

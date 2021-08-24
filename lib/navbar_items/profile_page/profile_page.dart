@@ -225,9 +225,9 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40 * heightMultiplier),
         child: AppBar(
+          backgroundColor:  Colors.teal.shade400,
           automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: Colors.transparent,
           elevation: 0,
 
           actions: <Widget>[

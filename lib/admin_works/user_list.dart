@@ -71,27 +71,20 @@ class _UserListState extends State<UserList> {
           ),
         ),
 
-        // Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: 10,vertical: 25*heightMultiplier),
-        //   child: Material(
-        //     color: Colors.transparent,
-        //
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.start,
-        //        children: [
-        //          IconButton(icon: Icon(Icons.arrow_back_ios,color: sharedObjectsGlobal.deepGreen,size: 22*widthMultiplier ,),
-        //            onPressed: (){
-        //            print("hello");
-        //              Navigator.pop(context);
-        //            },),
-        //
-        //
-        //       ],
-        //     ),
-        //   ),
-        // ),
 
         Scaffold(
+          appBar: AppBar(
+            backgroundColor:  Colors.teal.shade400,
+            backwardsCompatibility: false,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: sharedObjectsGlobal.deepGreen,size: 22*widthMultiplier ,),
+              onPressed: (){
+                Navigator.pop(context);
+              },),
+            title: Text("User List", style:TextStyle( fontFamily: "Mina", letterSpacing: 0, fontSize: 20*widthMultiplier,fontWeight: FontWeight.w800, color:sharedObjectsGlobal.deepGreen,) ),
+          ),
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -100,8 +93,8 @@ class _UserListState extends State<UserList> {
               child: Center(child: sharedObjectsGlobal.circularProgressCustomize,),
             ): Column(
               children: [
-                SizedBox(height: 25*heightMultiplier,),
-                Text("User List",style: TextStyle(fontFamily: "Mina",fontSize: 25*widthMultiplier,fontWeight: FontWeight.bold,color: sharedObjectsGlobal.deepGreen),),
+                // SizedBox(height: 25*heightMultiplier,),
+                // Text("User List",style: TextStyle(fontFamily: "Mina",fontSize: 25*widthMultiplier,fontWeight: FontWeight.bold,color: sharedObjectsGlobal.deepGreen),),
                 SizedBox(height: 40*heightMultiplier,),
                 ListView.builder(
                   shrinkWrap: true,
@@ -138,9 +131,6 @@ class _UserListState extends State<UserList> {
                                       value: userStatus,
                                       onChanged: (value) {
                                         changeStatus(singleAppUser,value);
-                                        // setState(() {
-                                        //   userStatus = !userStatus;
-                                        // });
                                       },
                                     ),
 

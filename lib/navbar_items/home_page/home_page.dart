@@ -1,8 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:device_apps/device_apps.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -71,6 +69,7 @@ class _HomePageState extends State<HomePage> {
     ws = new WeatherFactory(key);
     queryCurrentWeather();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Text("Query Weather", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                     onPressed: () {
                                       Navigator.push(
-                                        context, MaterialPageRoute(builder: (context) => WeatherForecast()));
+                                        context, MaterialPageRoute(builder: (context) => WeatherForecast(lat, lon)));
                                     }),
                                 ),
                               ),
@@ -268,11 +267,30 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         GestureDetector(
                           onTap: ()async{
-                            await LaunchApp.openApp(
-                              openStore: true,
-                              androidPackageName: 'com.agss.agridictionaryoffline',
-                              appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
-                            );
+                            const url = "https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline";
+                            const protocolUrl = "com.agss.agridictionaryoffline";
+                            List<Application> apps = await DeviceApps.getInstalledApplications(onlyAppsWithLaunchIntent: true,
+                              includeSystemApps: true);
+                            bool isInstalled = await DeviceApps.isAppInstalled("com.agss.agridictionaryoffline");
+                            print(isInstalled);
+                            if (isInstalled)
+                            {
+                              DeviceApps.openApp("com.agss.agridictionaryoffline");
+                            }
+                            else
+                            {
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              }
+                              else
+                                throw 'Could not launch $url';
+                            }
+
+                            // await LaunchApp.openApp(
+                            //   openStore: true,
+                            //   androidPackageName: 'com.agss.agridictionaryoffline',
+                            //   appStoreLink: 'https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline',
+                            // );
                           },
                           child: Container(
                             width: 125*widthMultiplier,

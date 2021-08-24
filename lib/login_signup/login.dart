@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
 
       }else{
         setState(() {
-          errorText = "Tou don't have any account!\nGo to signup for creating account.";
+          errorText = "You don't have any account!\nGo to signup for creating account.";
         });
       }
     });
