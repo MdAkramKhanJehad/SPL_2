@@ -1,22 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Question{
+
   final String questionDetails,userId,questionId,mainQuestion,docId;
   final  List<String> questionImageLinks,relatedCategories;
   final Timestamp questionPostedDate;
   final List<String> likes,dislikes;
   int numberOfComments;
   final bool visibility;
-  // final List<dynamic>popularCommentsId;
 
-  Question({required this.questionId,required this.visibility,required this.docId,required this.mainQuestion,required this.numberOfComments,required this.relatedCategories,
+  Question({required this.questionId,required this.visibility,required this.docId,
+  required this.mainQuestion,required this.numberOfComments,required this.relatedCategories,
     required this.questionDetails,required this.userId,
     required this.questionImageLinks,required this.questionPostedDate,required this.dislikes,required this.likes});
-
-  @override
-  String toString() {
-    return 'Question{questionDetails: $questionDetails, userId: $userId, questionId: $questionId, mainQuestion: $mainQuestion, questionImageLinks: $questionImageLinks, relatedCategories: $relatedCategories, questionPostedDate: $questionPostedDate, likes: $likes, dislikes: $dislikes, numberOfComments: $numberOfComments}';
-  }
 
   factory Question.fromJson(doc){
     return Question(
@@ -33,5 +29,13 @@ class Question{
       relatedCategories: doc.data()!.containsKey('relatedCategories')? List<String>.from(doc['relatedCategories']):[],
       visibility: doc['visibility'],
     );
+  }
+
+
+
+
+  @override
+  String toString() {
+    return 'Question{questionDetails: $questionDetails, userId: $userId, questionId: $questionId, mainQuestion: $mainQuestion, questionImageLinks: $questionImageLinks, relatedCategories: $relatedCategories, questionPostedDate: $questionPostedDate, likes: $likes, dislikes: $dislikes, numberOfComments: $numberOfComments}';
   }
 }

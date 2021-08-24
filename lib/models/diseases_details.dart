@@ -14,6 +14,8 @@ class DiseasesDetails{
 }
 
 class Disease{
+
+
   final String disease_name,plant_name;
   List<String> prevention_cure,symptoms,images;
 

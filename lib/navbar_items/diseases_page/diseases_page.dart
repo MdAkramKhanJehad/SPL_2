@@ -16,6 +16,7 @@ class _DiseasesPageState extends State<DiseasesPage> {
   bool loading = true;
   List<DiseasesDetails>diseasesDetailsList = [];
 
+
   getAllDiseases(){
     FirebaseFirestore.instance.collection('diseases').get().then((querySnapshot){
       querySnapshot.docs.forEach((doc) {
@@ -33,6 +34,8 @@ class _DiseasesPageState extends State<DiseasesPage> {
       });
     });
   }
+
+
   @override
   void initState() {
 

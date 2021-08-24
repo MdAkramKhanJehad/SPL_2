@@ -21,9 +21,22 @@ class _QAPageState extends State<QAPage> {
   ScrollController scrollController = new ScrollController();
   @override
   void initState() {
+    getQuestions();
+    super.initState();
+
+  }
+
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+
+  getQuestions(){
     var query = FirebaseFirestore.instance.collection('questions').where('visibility',isEqualTo: true).orderBy('postDate',descending: true).limit(perPageLimit);
     fetchPaginatedData(query);
-    super.initState();
     scrollController.addListener(() {
       if(scrollController.position.pixels ==scrollController.position.maxScrollExtent && queryForMore){
         var query = FirebaseFirestore.instance.collection('questions').where('visibility',isEqualTo: true).orderBy('postDate',descending: true)
@@ -33,11 +46,7 @@ class _QAPageState extends State<QAPage> {
       }
     });
   }
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
+
   fetchPaginatedData(query) {
     query
         .get()
@@ -52,6 +61,8 @@ class _QAPageState extends State<QAPage> {
       setState(() {});
     });
   }
+
+
   Widget  askCommunityButton(){
     return GestureDetector(
       onTap: (){
@@ -111,80 +122,92 @@ class _QAPageState extends State<QAPage> {
             title: Text("Question Answer Forum", style:appBarTitleStyle ),
           ),
           floatingActionButton:sharedObjectsGlobal.userSignIn? askCommunityButton():Container(),
-          body:  SingleChildScrollView(
-              controller: scrollController,
-              physics: AlwaysScrollableScrollPhysics(),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: questionList.length,
-                itemBuilder: (context,index){
-                  Question question = questionList[index];
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                        padding: EdgeInsets.only(bottom: 10),
-                        margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
-                        decoration: BoxDecoration(
-                          color: sharedObjectsGlobal.offWhite,
-                          boxShadow : [BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.25),
-                              offset: Offset(0,3),
-                              blurRadius: 4
-                          )],
-                        ),
-                        child: Stack(
-                          children: [
-                            Column(
-                              children: [
-                               question.questionImageLinks.length==0? Container():  SingleQuestionHeader(imgList: question.questionImageLinks,),
-                                SingleQuestionMiddle(question: question,isPostView: false,)
-
-                              ],
-                            ),
-                            sharedObjectsGlobal.userGlobal.isAdmin?  Positioned(
-                              top: -25,
-                              right: -7,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 20),
-                                child: PopupMenuButton<String>(
-                                  icon: Icon(FontAwesomeIcons.ellipsisV,
-                                    color:question.questionImageLinks.length==0?Colors.black:Colors.white,
-                                    size: 18,),
-                                  onSelected: (String val){
-                                    if(val == 'Delete This Post'){
-                                      FirebaseFirestore.instance.collection('questions').doc(question.docId).update({
-                                        "visibility" : false,
-                                      }).then((value){
-                                        setState(() {
-                                          questionList.remove(question);
-                                        });
-                                      });
-
-                                    }
-                                  },
-                                  itemBuilder: (BuildContext context) {
-                                    return {'Delete This Post'}.map((String choice) {
-                                      return PopupMenuItem<String>(
-                                        value: choice,
-                                        child: Text(choice),
-
-                                      );
-                                    }).toList();
-                                  },
-                                ),
-
-                                // IconButton(onPressed: (){
-                                //   print("hello");
-                                // }, icon: Icon(FontAwesomeIcons.ellipsisV),color: Colors.white,iconSize: 18,),
-                              ),
-                            ): Container(),
-                          ],
-                        )
-                    ),
-                  );
+          body:  RefreshIndicator(
+            onRefresh: (){
+              getQuestions();
+              return Future.delayed(
+                Duration(seconds: 3),
+                    () {
                 },
-              )
+              );
+            },
+            backgroundColor: Colors.white,
+            color: Colors.black,
+            child: SingleChildScrollView(
+                controller: scrollController,
+                physics: AlwaysScrollableScrollPhysics(),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: questionList.length,
+                  itemBuilder: (context,index){
+                    Question question = questionList[index];
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                          padding: EdgeInsets.only(bottom: 10),
+                          margin: EdgeInsets.only(top:5,bottom: 5,left: 5,right: 5),
+                          decoration: BoxDecoration(
+                            color: sharedObjectsGlobal.offWhite,
+                            boxShadow : [BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.25),
+                                offset: Offset(0,3),
+                                blurRadius: 4
+                            )],
+                          ),
+                          child: Stack(
+                            children: [
+                              Column(
+                                children: [
+                                 question.questionImageLinks.length==0? Container():  SingleQuestionHeader(imgList: question.questionImageLinks,),
+                                  SingleQuestionMiddle(question: question,isPostView: false,)
+
+                                ],
+                              ),
+                              sharedObjectsGlobal.userGlobal.isAdmin?  Positioned(
+                                top: -25,
+                                right: -7,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 20),
+                                  child: PopupMenuButton<String>(
+                                    icon: Icon(FontAwesomeIcons.ellipsisV,
+                                      color:question.questionImageLinks.length==0?Colors.black:Colors.white,
+                                      size: 18,),
+                                    onSelected: (String val){
+                                      if(val == 'Delete This Post'){
+                                        FirebaseFirestore.instance.collection('questions').doc(question.docId).update({
+                                          "visibility" : false,
+                                        }).then((value){
+                                          setState(() {
+                                            questionList.remove(question);
+                                          });
+                                        });
+
+                                      }
+                                    },
+                                    itemBuilder: (BuildContext context) {
+                                      return {'Delete This Post'}.map((String choice) {
+                                        return PopupMenuItem<String>(
+                                          value: choice,
+                                          child: Text(choice),
+
+                                        );
+                                      }).toList();
+                                    },
+                                  ),
+
+                                  // IconButton(onPressed: (){
+                                  //   print("hello");
+                                  // }, icon: Icon(FontAwesomeIcons.ellipsisV),color: Colors.white,iconSize: 18,),
+                                ),
+                              ): Container(),
+                            ],
+                          )
+                      ),
+                    );
+                  },
+                )
+            ),
           ),
 
         ),

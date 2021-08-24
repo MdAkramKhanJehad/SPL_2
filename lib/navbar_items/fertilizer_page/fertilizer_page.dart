@@ -18,6 +18,8 @@ class _FertilizerPageState extends State<FertilizerPage> {
   List<Fertilizer> selectedUnitFertilizerList=[];
 
   List<FertilizerCalculator> fertilizerCalcList=[];
+
+
   getAllFertilizers()async{
     FirebaseFirestore.instance.collection('fertilizers').limit(5).get().then((querySnapshot){
       querySnapshot.docs.forEach((doc) {
@@ -41,6 +43,9 @@ class _FertilizerPageState extends State<FertilizerPage> {
       });
     });
   }
+
+
+
   @override
   void initState() {
     getAllFertilizers();

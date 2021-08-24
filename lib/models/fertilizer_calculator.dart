@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FertilizerCalculator{
+
+
   final List<String> units;
   final String name;
   final List<Fertilizer> hectare,acre;
-  FertilizerCalculator({required this.name,
-    required this.acre,required this.hectare,
-    required this.units});
+  FertilizerCalculator({required this.name, required this.acre,required this.hectare, required this.units});
 
   factory FertilizerCalculator.fromJson(doc,List<Fertilizer>acre,List<Fertilizer>hectare){
     return FertilizerCalculator(
@@ -16,6 +16,9 @@ class FertilizerCalculator{
       hectare:hectare,
     );
   }
+
+
+
   @override
   String toString() {
     return 'FertilizerCalculator{units: $units, name: $name, hectare: $hectare, acre: $acre}';
