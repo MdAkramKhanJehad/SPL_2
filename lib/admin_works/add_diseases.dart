@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spl_two_agri_pro/main.dart';
+import 'package:spl_two_agri_pro/models/diseases_details.dart';
 import 'package:spl_two_agri_pro/navbar_items/navbar_items.dart';
 
 class AddDiseases extends StatefulWidget {
@@ -279,6 +280,54 @@ class _AddDiseasesState extends State<AddDiseases> {
     }
     return true;
   }
+  // addToPopularDisease(){
+  //   List<Disease> dList = [];
+  //   FirebaseFirestore.instance.collection('diseases').doc("00000000").get().then((doc){
+  //     int index = 0;
+  //     doc['diseases'].forEach((data){
+  //       if(index !=0){
+  //         Disease disease = Disease.fromJson(data);
+  //         print(disease);
+  //       }
+  //       index++;
+  //
+  //     });
+  //
+  //
+  //   }).catchError((error){
+  //     print('Getting Popular Diseases failed: $error');
+  //   });
+  // }
+
+  addToPopularDisease(){
+    var dList = [];
+    FirebaseFirestore.instance.collection('diseases').doc("00000000").get().then((doc){
+      int index = 0;
+      doc['diseases'].forEach((data){
+        if(index !=0){
+          dList.add(data);
+
+        }
+        index++;
+
+      });
+      print(dList.toString());
+      var data = {
+        'images':downloadUrls,
+        'plant_name': selectedPlant,
+        'disease_name': diseaseController.text.trim(),
+        'symptoms' : symptomController.text.trim().split("\n"),
+        'prevention_cure': preventionController.text.trim().split("\n"),
+      };
+      dList.add(data);
+      FirebaseFirestore.instance.collection('diseases').doc("00000000").update({
+        "diseases": dList,
+      });
+    }).catchError((error){
+      print('Getting Popular Diseases failed: $error');
+    });
+  }
+
   uploadImageToFirebase()async{
     final _storage =FirebaseStorage.instance.ref();
     for(int j=0;j<files.length;j++){
@@ -312,6 +361,7 @@ class _AddDiseasesState extends State<AddDiseases> {
     return downloadUrls;
   }
   uploadFullQuestionToFirebase(){
+    addToPopularDisease();
     var data = {
       'images':downloadUrls,
       'disease_name': diseaseController.text.trim(),

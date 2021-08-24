@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_apps/device_apps.dart';
+import 'package:spl_two_agri_pro/models/diseases_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -69,7 +70,23 @@ class _HomePageState extends State<HomePage> {
     ws = new WeatherFactory(key);
     queryCurrentWeather();
   }
+  addToPopularDisease(){
+    var dList = [];
+    FirebaseFirestore.instance.collection('diseases').doc("00000000").get().then((doc){
+      int index = 0;
+      doc['diseases'].forEach((data){
+        if(index !=0){
+        dList.add(data);
 
+        }
+        index++;
+
+      });
+      print(dList.toString());
+    }).catchError((error){
+      print('Getting Popular Diseases failed: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +179,7 @@ class _HomePageState extends State<HomePage> {
                           child: Text("Update", style: TextStyle(color: Colors.teal,fontWeight: FontWeight.bold, fontSize: 16*widthMultiplier),),
                           onPressed: () {
                             queryCurrentWeather();
+                            addToPopularDisease();
                           }),
                         SizedBox(height: 7*heightMultiplier,),
                         Container(

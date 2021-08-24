@@ -34,6 +34,6 @@ class Disease{
 
   @override
   String toString() {
-    return 'Disease{disease_name: $disease_name, prevention_cure: $prevention_cure, symptoms: $symptoms, images: $images}';
+    return 'Disease{disease_name: $disease_name,  plant: $plant_name}';
   }
 }
