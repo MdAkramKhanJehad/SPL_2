@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                       itemBuilder: (BuildContext context) {
-                        return { 'Add Admin','User List'}.map((String choice) {
+                        return { 'Add Admin','User List','Add Disease'}.map((String choice) {
                           return PopupMenuItem<String>(
                             value: choice,
                             child: Text(choice),

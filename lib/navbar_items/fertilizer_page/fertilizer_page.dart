@@ -114,7 +114,6 @@ class _FertilizerPageState extends State<FertilizerPage> {
                   ),
                   child: Center(
                     child: Container(
-                      //color: sharedObjectsGlobal.deepGreen,
                       child: DropdownButton<FertilizerCalculator>(
                         hint:  Text("Select item"),
                         value: selectedItem,
@@ -123,7 +122,6 @@ class _FertilizerPageState extends State<FertilizerPage> {
                         elevation: 10,
                         icon: Icon(FontAwesomeIcons.caretDown),
                         iconSize: 18*widthMultiplier,
-                        //itemHeight: 40*heightMultiplier,
                         menuMaxHeight: 350*heightMultiplier,
                         onChanged: ( val) {
                           setState(() {

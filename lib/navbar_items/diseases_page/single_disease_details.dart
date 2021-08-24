@@ -79,7 +79,7 @@ class _SingleDiseaseDetailsState extends State<SingleDiseaseDetails> {
                               height: width,
                               width: width,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(35),
+                                borderRadius: BorderRadius.only(bottomRight: Radius.circular(35),bottomLeft:  Radius.circular(35)),
                                 boxShadow : [BoxShadow(
 
                                     color: Colors.black26,
@@ -88,7 +88,7 @@ class _SingleDiseaseDetailsState extends State<SingleDiseaseDetails> {
                                 )],
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(35),
+                                borderRadius: BorderRadius.only(bottomRight: Radius.circular(35),bottomLeft:  Radius.circular(35)),
                                 child: Image.network(
                                  singleImg,
                                   fit: BoxFit.cover,
