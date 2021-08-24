@@ -32,6 +32,7 @@ class _AddDiseasesState extends State<AddDiseases> {
     "আম",
     "মরিচ",
     "ধান",
+    'লিচু'
 
   ];
   String selectedPlant = "উদ্ভিদ নির্বাচন করুন";
