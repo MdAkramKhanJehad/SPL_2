@@ -136,6 +136,10 @@ class _SplashScreenState extends State<SplashScreen> {
             style: TextStyle(fontSize: 28*width/360,color: sharedObjectsGlobal.deepGreen,fontFamily: "Mina",fontWeight: FontWeight.bold,),),
         ),
         Center(
+          child: Text("SPL-2",
+            style: TextStyle(fontSize: 18*width/360,color: sharedObjectsGlobal.deepGreen,fontFamily: "Mina",fontWeight: FontWeight.bold,),),
+        ),
+        Center(
           child: Container(
             height:300*heightMultiplier,
             width: width*0.8,
@@ -148,7 +152,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
         Center(
-          child: Text("Institute of Information Technology\nSPL-2",textAlign: TextAlign.center,maxLines: 3,
+          child: Text("Institute of Information Technology\nUniversity of Dhaka",textAlign: TextAlign.center,maxLines: 3,
             style: TextStyle(fontSize: 12*width/360,color: sharedObjectsGlobal.deepGreen,fontFamily: "Mina",fontWeight: FontWeight.w500,),),
         ),
       ],
