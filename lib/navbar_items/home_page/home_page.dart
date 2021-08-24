@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -267,21 +266,17 @@ class _HomePageState extends State<HomePage> {
                           onTap: ()async{
                             const url = "https://play.google.com/store/apps/details?id=com.agss.agridictionaryoffline";
                             const protocolUrl = "com.agss.agridictionaryoffline";
-                            // bool isInstalled = await DeviceApps.openApp("com.agss.agridictionaryoffline");
-                            // Returns a list of only those apps that have launch intent
-                            List<Application> apps = await DeviceApps.getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true);
-                            print("*************TOTAL LENGTH       ${apps.length}");
+                            List<Application> apps = await DeviceApps.getInstalledApplications(onlyAppsWithLaunchIntent: true,
+                              includeSystemApps: true);
                             bool isInstalled = await DeviceApps.isAppInstalled("com.agss.agridictionaryoffline");
                             print(isInstalled);
                             if (isInstalled)
                             {
-                              print("Noooooooo");
                               DeviceApps.openApp("com.agss.agridictionaryoffline");
                             }
                             else
                             {
                               if (await canLaunch(url)) {
-                                print("111111111111111111");
                                 await launch(url);
                               }
                               else

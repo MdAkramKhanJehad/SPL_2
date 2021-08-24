@@ -28,9 +28,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  firebase_storage: ^8.1.3
+  firebase_storage: ^10.0.2
   cloud_firestore: ^2.2.2
-  firebase_auth: ^1.4.1
+  firebase_auth: ^3.0.2
   font_awesome_flutter: ^9.1.0
   intl: ^0.17.0
   sms_autofill: ^2.0.0
@@ -38,20 +38,18 @@ dependencies:
   image_picker: ^0.8.0+3
   cached_network_image: ^3.0.0
   http: ^0.13.3
-  provider: ^5.0.0
+  provider: ^6.0.0
   crypt: ^4.0.1
   fluttertoast: ^8.0.7
   flutter_dotenv: ^5.0.0
   carousel_slider: ^4.0.0
   timeago: ^3.1.0
-  file_picker: ^3.0.3
+  file_picker: ^4.0.0
   weather: ^2.0.1
   geolocator: ^7.2.0+1
   flutter_appavailability: ^0.0.21
-  external_app_launcher:
   url_launcher: ^6.0.9
-  device_apps:
-  android_intent:
+  device_apps: ^2.1.1
   flutter_staggered_grid_view: ^0.4.0
 dev_dependencies:
   flutter_test:
@@ -71,7 +69,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - assets/images/
+    - assets/images/app-mini-logo.png
+    - assets/images/background-low-opacity.png
+    - assets/images/calculator.png
+    - assets/images/calculator-text.png
+    - assets/images/dictionary.png
+    - assets/images/diseases.png
+    - assets/images/home-page-bg.png
+    - assets/images/no-profile.png
+    - assets/images/test.jpeg
   fonts:
     - family: Mina
       fonts:
